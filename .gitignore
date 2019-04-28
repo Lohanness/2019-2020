@@ -1,5 +1,9 @@
 #Thanks to Theol0403 for previding this Vex-Specific git ignore
 
+# Remove VsCode
+.vscode/
+*.vscode
+
 # Prerequisites
 *.d
 
