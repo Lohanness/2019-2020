@@ -1,5 +1,6 @@
 #include "main.h"
-
+#include "Train.cpp"
+#include "RobotBase.cpp"
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -11,4 +12,23 @@
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
+
+
+void resetEncoders(pros::ADIEncoder enc) {
+  enc.reset();
+}
+
+//declare motors
+pros::Motor fRight(1);
+pros::Motor bRight(2);
+pros::Motor fLeft(3);
+pros::Motor bLeft(4);
+
+Train rightTrain = Train(fRight,bRight); //create the right train
+Train leftTrain = Train(fLeft,bLeft);    //create the left train
+
+//declare the robot base
+RobotBase base = RobotBase(rightTrain,leftTrain);
+
+
 void autonomous() {}

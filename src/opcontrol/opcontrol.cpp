@@ -14,10 +14,10 @@ void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 	//Identify all the motors
-	pros::Motor fRight(1);
-	pros::Motor bRight(2);
-	pros::Motor fLeft(3);
-	pros::Motor bLeft(4);
+	pros::Motor fRight(10);
+	pros::Motor bRight(20);
+	pros::Motor fLeft(9);
+	pros::Motor bLeft(19);
 	lEncode.reset();
 	rEncode.reset();
 
