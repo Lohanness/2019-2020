@@ -36,9 +36,15 @@ class RobotBase {
     }
   }
 
+  void stopTrains() {
+    trains[0].stop();
+    trains[1].stop();
+  }
 
-
-
+  void resetEncoders() {
+    trains[0].resetEncoders();
+    trains[1].resetEncoders();
+  }
   void stationaryTurn(int degrees, int speed) {
     int degturned = 0;
     while(degturned != degrees) {
@@ -50,9 +56,38 @@ class RobotBase {
       trains[1].moveVelocity(speed);
 
     }
-    trains[0].stop();
-    trains[1].stop();
-    trains[0].resetEncoders();
-    trains[1].resetEncoders();
+    stopTrains();
+    resetEncoders();
+  }
+
+
+
+  void movingCurve(int degrees, int distance, int speed) {
+    /*
+    If turning left:
+    Train1 = right train
+    Train2 = left train
+
+    If turning right:
+    Train1 = left train
+    Train2 = right train
+
+    T2RPM = (T2 Rotates * T1 Speed)/T1 Rotates
+
+    */
+
+    Train t1 = trains[0];
+    Train t2 = trains[1];
+    if(degrees <0) {
+      t1=trains[1];
+      t2=trains[0];
+    }
+
+
+  }
+
+  void rotateAndMove(int degrees, int distance, int speed) {
+    stationaryTurn(degrees, speed);
+    forwardTile(distance,speed);
   }
 };

@@ -28,7 +28,7 @@ public:
     }
   }
 
-  
+
   void resetEncoders() {
   	for(int i=0;i<sizeof(enc);i++) {
       enc[i].reset();
