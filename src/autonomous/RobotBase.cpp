@@ -1,9 +1,14 @@
 #include "Train.cpp"
+#include "main.h"
+
+
 class RobotBase {
   public:
   Train *trains;
-  RobotBase(Train rightTrain, Train leftTrain) {
+  int deg90;
+  RobotBase(Train rightTrain, Train leftTrain,int rotates=200) {
     Train trains [2] = {rightTrain,leftTrain};
+    deg90=rotates;
   }
 
   void forwardSpeed(int speed) {
@@ -31,4 +36,23 @@ class RobotBase {
     }
   }
 
+
+
+
+  void stationaryTurn(int degrees, int speed) {
+    int degturned = 0;
+    while(degturned != degrees) {
+      int rDegs = (trains[0].getEncoderVal()/deg90)*90;
+      int lDegs = (trains[1].getEncoderVal()/deg90)*90;
+      degturned = rDegs+lDegs;
+
+      trains[0].moveVelocity(speed);
+      trains[1].moveVelocity(speed);
+
+    }
+    trains[0].stop();
+    trains[1].stop();
+    trains[0].resetEncoders();
+    trains[1].resetEncoders();
+  }
 };

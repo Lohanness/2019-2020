@@ -4,10 +4,11 @@
 class Train {
 public:
   pros::Motor *mots; //declaration of motor array to store motors in the train
-
+  pros::ADIEncoder *enc;
     //We must make an initializing function to obtain the motors in the train
-    Train(pros::Motor m1,pros::Motor m2) {
+    Train(pros::Motor m1,pros::Motor m2, pros::ADIEncoder encoder...) {
       pros::Motor mots[] = {m1,m2}; //adds the motors to the train
+      enc = &encoder;
     }
   void moveVelocity(int speedRPM) { //takes RPM at which to rotate the train
     for(int i=0; i<sizeof(mots); i++) { //foreach motor in the train
@@ -27,4 +28,19 @@ public:
     }
   }
 
+  
+  void resetEncoders() {
+  	for(int i=0;i<sizeof(enc);i++) {
+      enc[i].reset();
+    }
+  }
+
+  int getEncoderVal() {
+    int avg = 0;
+    for(int i=0;i<sizeof(enc);i++) {
+      avg += enc[i].get_value();
+    }
+    avg /= (sizeof(enc)-1);
+    return avg;
+  }
 };
