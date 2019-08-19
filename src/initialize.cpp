@@ -1,6 +1,15 @@
 #include "main.h"
 
+std::string auton;
+void leftbutton() {
+	auton="red";
+	pros::lcd::set_text(1, auton);
+}
 
+void centerbutton() {
+	auton="blue";
+	pros::lcd::set_text(1, auton);
+}
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -8,8 +17,10 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-
-	autonomous();
+	pros::lcd::initialize();
+	pros::lcd::register_btn0_cb(centerbutton);
+	pros::lcd::register_btn1_cb(leftbutton);
+	//autonomous();
 }
 
 /**

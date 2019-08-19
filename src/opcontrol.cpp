@@ -23,6 +23,7 @@ void opcontrol() {
 	pros::ADIEncoder r(1,true);
 	pros::ADIEncoder l(3,false);
 
+/*
 	Train rightTrain = Train(fRight,bRight,r); //create the right train
 	Train leftTrain = Train(fLeft,bLeft,l);    //create the left train
 
@@ -35,5 +36,5 @@ void opcontrol() {
 	base.stopTrains();
 	pros::delay(500);
 	base.stationaryTurn(90, 20);
-
+*/
 }
