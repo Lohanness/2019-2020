@@ -1,6 +1,6 @@
 #include "main.h"
-#include "Train.cpp"
-#include "RobotBase.cpp"
+#include "RobotBaseClass.cpp"
+
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -33,4 +33,20 @@ Train leftTrain = Train(fLeft,bLeft,l);    //create the left train
 RobotBase base = RobotBase(rightTrain,leftTrain);
 
 
-void autonomous() {}
+void autonomous() {
+  fRight.move_velocity(-30);
+  pros::delay(500);
+  fRight.move_velocity(0);
+
+  pros::delay(1000);
+  //pros::lcd::set_text(1, "b");
+  pros::delay(500);
+  base.forwardSpeed(30);
+  //pros::lcd::set_text(1, "c");
+	pros::delay(500);
+  //pros::lcd::set_text(1, "d");
+	base.stopTrains();
+	pros::delay(500);
+	base.stationaryTurn(90, 20);
+
+}

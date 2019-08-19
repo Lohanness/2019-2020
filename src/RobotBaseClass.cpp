@@ -1,4 +1,4 @@
-#include "Train.cpp"
+#include "TrainClass.cpp"
 #include "main.h"
 
 
@@ -41,16 +41,22 @@ class RobotBase {
     trains[1].stop();
   }
 
+  void printEncoders() {
+    //pros::lcd::set_text(1,"Right Encoder: "  + std::to_string(trains[0].getEncoderVal()));
+    //pros::lcd::set_text(2,"Left Encoder: "  + std::to_string(trains[1].getEncoderVal()));
+  }
   void resetEncoders() {
     trains[0].resetEncoders();
     trains[1].resetEncoders();
   }
   void stationaryTurn(int degrees, int speed) {
     int degturned = 0;
+    printEncoders();
     while(degturned != degrees) {
-      int rDegs = (trains[0].getEncoderVal()/deg90)*90;
-      int lDegs = (trains[1].getEncoderVal()/deg90)*90;
-      degturned = rDegs+lDegs;
+      resetEncoders();
+      //int rDegs = (trains[0].getEncoderVal()/deg90)*90;
+      //int lDegs = (trains[1].getEncoderVal()/deg90)*90;
+    //  degturned = rDegs+lDegs;
 
       trains[0].moveVelocity(speed);
       trains[1].moveVelocity(speed);
