@@ -4,41 +4,38 @@
 
 class Train {
 public:
-  pros::Motor *mots; //declaration of motor array to store motors in the train
-  //pros::ADIEncoder enc = pros::ADIEncoder(1,true);
+  pros::Motor front; //declaration of motor array to store motors in the train
+  pros::Motor back;
+  pros::ADIEncoder enc;
+  int onetile;
+  Train(pros::Motor m1,pros::Motor m2, pros::ADIEncoder encode, int t): front(m1), back(m2), enc(encode), onetile(t) {}; //Train(Front motor, Back motor, ADIEncoder class, Encoder ticks per tile)
+
     //We must make an initializing function to obtain the motors in the train
+    /*
     Train(int frontMotorPort,int backMotorPort, int ADIEncoderPort) {
       pros::Motor mots[] = {pros::Motor(frontMotorPort),pros::Motor(backMotorPort)}; //adds the motors to the train
       //enc = encoder;
     }
+    */
   void moveVelocity(int speedRPM) { //takes RPM at which to rotate the train
-    for(int i=0; i<sizeof(mots); i++) { //foreach motor in the train
-
-      mots[i].move_velocity(speedRPM); //set the motors speed to the RPM
-
-    }
+      front.move_velocity(speedRPM); //set the motors speed to the RPM
+      front.move_velocity(speedRPM);
   }
 
   void stop() { //stop moving the train
-    for(int i=0; i<sizeof(mots); i++) { //foreach motor in the train
-      mots[i].move_velocity(0); //stop the motor
-    }
+      front.move_velocity(0); //stop the motor
+      back.move_velocity(0);
   }
 
   void moveRelative(int distance, int velocity) { //rotate the train a specified amount of degrees at a specified speed
-    for(int i=0; i<sizeof(mots); i++) { //foreach motor in the train
-
-      mots[i].move_relative(distance, velocity);
-    }
+      front.move_velocity(velocity);
+      back.move_velocity(velocity);
   }
 
+  void resetEncoder() {
+      enc.reset();
+  }
 
-  void resetEncoders() {
-    //  enc.reset();
-  }
-/*
-  int getEncoderVal() {
-    return  enc.get_value();
-  }
-  */
+  int getEncoderVal() {  return  enc.get_value(); }
+
 };

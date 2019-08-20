@@ -4,96 +4,86 @@
 
 class RobotBase {
   public:
-  Train *trains;
-  int deg90;
-  RobotBase(Train rightTrain, Train leftTrain,int rotates=200) {
-    Train trains [2] = {rightTrain,leftTrain};
-    deg90=rotates;
-  }
+  Train lt;
+  Train rt;
+  int ticksPerDeg;
+  RobotBase(Train rightTrain, Train leftTrain,int ticksFor90Deg=150): lt(leftTrain), rt(rightTrain), ticksPerDeg(ticksFor90Deg/90) {};
 
   void forwardSpeed(int speed) {
-    for(int i=0; i<sizeof(trains); i++) {
-      trains[i].moveVelocity(speed);
-    }
+     lt.moveVelocity(speed);
+     rt.moveVelocity(speed);
   }
 
   void backwardSpeed(int speed) {
     speed*=-1;
-    for(int i=0; i<sizeof(trains); i++) {
-      trains[i].moveVelocity(speed);
-    }
+    lt.moveVelocity(speed);
+    rt.moveVelocity(speed);
   }
 
   void forwardTile(int tiles, int speed) {
-    for(int i=0; i<sizeof(trains); i++) {
-      trains[i].moveRelative(tiles,speed);
-    }
+      lt.moveRelative(tiles,speed);
+      rt.moveRelative(tiles, speed);
   }
 
   void backwardTile(int tiles, int speed) {
-    for(int i=0; i<sizeof(trains); i++) {
-      trains[i].moveRelative(-tiles,speed);
-    }
+      lt.moveRelative(-tiles,speed);
+      rt.moveRelative(-tiles, speed);
   }
 
-  void stopTrains() {
-    trains[0].stop();
-    trains[1].stop();
+  void stop() {
+    lt.stop();
+    rt.stop();
   }
 
   void printEncoders() {
-    //pros::lcd::set_text(1,"Right Encoder: "  + std::to_string(trains[0].getEncoderVal()));
-    //pros::lcd::set_text(2,"Left Encoder: "  + std::to_string(trains[1].getEncoderVal()));
+    pros::lcd::set_text(1,"Right Encoder: "  + std::to_string(lt.getEncoderVal()));
+    pros::lcd::set_text(2,"Left Encoder: "  + std::to_string(rt.getEncoderVal()));
   }
   void resetEncoders() {
-    trains[0].resetEncoders();
-    trains[1].resetEncoders();
+    lt.resetEncoder();
+    rt.resetEncoder();
   }
-  void stationaryTurn(int degrees, int speed) {
-    int degturned = 0;
-    printEncoders();
-    while(degturned != degrees) {
-      resetEncoders();
-      //int rDegs = (trains[0].getEncoderVal()/deg90)*90;
-      //int lDegs = (trains[1].getEncoderVal()/deg90)*90;
-    //  degturned = rDegs+lDegs;
 
-      trains[0].moveVelocity(speed);
-      trains[1].moveVelocity(speed);
+
+  void stationaryTurn(int degrees, int speed) {
+    resetEncoders();
+    int ticksWanted = degrees*ticksPerDeg;
+    bool reached = false;
+    int ltEnc = abs(lt.getEncoderVal());
+    int rtEnc = abs(rt.getEncoderVal());
+
+    while(!reached) {
+
+      printEncoders();
+      ltEnc = abs(lt.getEncoderVal());
+      int rtEnc = abs(rt.getEncoderVal());
+
+      if(ltEnc+rtEnc >= ticksWanted) {
+        reached = true;
+        continue;
+      }
+
+      lt.moveVelocity(speed);
+      rt.moveVelocity(speed);
+
+      sleep(10);
 
     }
-    stopTrains();
+    stop();
     resetEncoders();
   }
 
 
 
-  void movingCurve(int degrees, int distance, int speed) {
-    /*
-    If turning left:
-    Train1 = right train
-    Train2 = left train
-
-    If turning right:
-    Train1 = left train
-    Train2 = right train
-
-    T2RPM = (T2 Rotates * T1 Speed)/T1 Rotates
-
-    */
-
-    Train t1 = trains[0];
-    Train t2 = trains[1];
-    if(degrees <0) {
-      t1=trains[1];
-      t2=trains[0];
-    }
-
-
-  }
 
   void rotateAndMove(int degrees, int distance, int speed) {
     stationaryTurn(degrees, speed);
     forwardTile(distance,speed);
+  }
+
+
+
+  void find90turn(int speed) {
+
   }
 };
