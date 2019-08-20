@@ -1,14 +1,30 @@
 #include "main.h"
-
-std::string auton;
+int i = 0;
+int x = 0;
+string auton;
+string square;
 void leftbutton() {
-	auton="red";
+	if (i == 1){
+		auton="red";
+		i = 0;
+	}
+	else{
+		auton = "blue";
+		i = 1;
+	}
 	pros::lcd::set_text(1, auton);
 }
 
 void centerbutton() {
-	auton="blue";
-	pros::lcd::set_text(1, auton);
+	if (x == 1){
+		square = "left";
+		x = 0;
+	}
+	else{
+		square = "right";
+		x = 1;
+	}
+	pros::lcd::set_text(2, square);
 }
 /**
  * Runs initialization code. This occurs as soon as the program is started.
