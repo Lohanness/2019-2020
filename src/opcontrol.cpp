@@ -15,26 +15,5 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	//declare motors
-	pros::Motor fRight(1);
-	pros::Motor bRight(2);
-	pros::Motor fLeft(3);
-	pros::Motor bLeft(4);
-	pros::ADIEncoder r(1,true);
-	pros::ADIEncoder l(3,false);
-
-/*
-	Train rightTrain = Train(fRight,bRight,r); //create the right train
-	Train leftTrain = Train(fLeft,bLeft,l);    //create the left train
-
-	//declare the robot base
-	RobotBase base = RobotBase(rightTrain,leftTrain);
-	fRight.move_relative(10, 40);
-	pros::delay(1000);
-	base.forwardSpeed(30);
-	pros::delay(500);
-	base.stopTrains();
-	pros::delay(500);
-	base.stationaryTurn(90, 20);
-*/
+	
 }

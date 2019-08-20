@@ -19,26 +19,15 @@ void resetEncoders(pros::ADIEncoder enc) {
 }
 
 //declare motors
-pros::Motor fRight(1);
-pros::Motor bRight(2);
-pros::Motor fLeft(3);
-pros::Motor bLeft(4);
-pros::ADIEncoder r(1,true);
-pros::ADIEncoder l(3,false);
 
-//Train rightTrain = Train(fRight,bRight,r); //create the right train
-//Train leftTrain = Train(fLeft,bLeft,l);    //create the left train
+Train rightTrain = Train(1,2,1); //create the right train
+Train leftTrain = Train(3,4,3);    //create the left train
 
-//declare the robot base
-//RobotBase base = RobotBase(rightTrain,leftTrain);
+RobotBase base = RobotBase(rightTrain,leftTrain);
 
 
 void autonomous() {
-  fRight.move_velocity(-30);
-  pros::delay(500);
-  fRight.move_velocity(0);
 
-/*
   pros::delay(1000);
   //pros::lcd::set_text(1, "b");
   pros::delay(500);
@@ -49,5 +38,4 @@ void autonomous() {
 	base.stopTrains();
 	pros::delay(500);
 	base.stationaryTurn(90, 20);
-*/
 }
