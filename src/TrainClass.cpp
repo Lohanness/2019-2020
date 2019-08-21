@@ -36,6 +36,8 @@ public:
       enc.reset();
   }
 
-  int getEncoderVal() {  return  enc.get_value(); }
+  int getEncoderVal() {
+      return  enc.get_value(); 
+  }
 
 };

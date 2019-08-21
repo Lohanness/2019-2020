@@ -1,28 +1,23 @@
 #include "main.h"
-int i = 0;
-int x = 0;
-string auton;
-string square;
+bool i = false;
+bool x = false;
+
+std::string auton;
+std::string square;
 void leftbutton() {
-	if (i == 1){
+	i=!i;
+	auton="blue";
+	if (!i){
 		auton="red";
-		i = 0;
-	}
-	else{
-		auton = "blue";
-		i = 1;
 	}
 	pros::lcd::set_text(1, auton);
 }
 
 void centerbutton() {
-	if (x == 1){
-		square = "left";
-		x = 0;
-	}
-	else{
-		square = "right";
-		x = 1;
+	x=!x;
+	square="right";
+	if (!x){
+		square="left";
 	}
 	pros::lcd::set_text(2, square);
 }
