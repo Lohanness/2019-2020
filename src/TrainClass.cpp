@@ -18,7 +18,7 @@ public:
     */
   void moveVelocity(int speedRPM) { //takes RPM at which to rotate the train
       front.move_velocity(speedRPM); //set the motors speed to the RPM
-      front.move_velocity(speedRPM);
+      back.move_velocity(speedRPM);
   }
 
   void stop() { //stop moving the train
@@ -36,7 +36,7 @@ public:
   }
 
   int getEncoderVal() {
-      return  enc.get_value();
+      return enc.get_value();
   }
 
 };

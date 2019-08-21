@@ -64,7 +64,7 @@ class RobotBase {
 
       printEncoders();
       ltEnc = abs(lt.getEncoderVal());
-      int rtEnc = abs(rt.getEncoderVal());
+      rtEnc = abs(rt.getEncoderVal());
 
       if(ltEnc+rtEnc >= ticksWanted) {
         reached = true;
@@ -72,7 +72,7 @@ class RobotBase {
       }
 
       lt.moveVelocity(speed);
-      rt.moveVelocity(speed);
+      rt.moveVelocity(-speed);
 
       pros::delay(10);
 

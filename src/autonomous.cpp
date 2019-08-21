@@ -1,5 +1,5 @@
 #include "main.h"
-#include "RobotBaseClass.cpp"
+#include "globals.hpp"
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -17,28 +17,16 @@ void resetEncoders(pros::ADIEncoder enc) {
   enc.reset();
 }
 
-std::string ac = autonColor;
-std::string as = autonSquare;
 
-pros::Motor fRight(1, true);
-pros::Motor bRight(2, true);
-pros::Motor fLeft(3);
-pros::Motor bLeft(4);
-
-pros::ADIEncoder right(1, true);
-pros::ADIEncoder left(1, false);
-Train rightTrain = Train(fRight,bRight,right,300); //create the right train
-Train leftTrain = Train(fLeft,bLeft,left,300);    //create the left train
-
-RobotBase base = RobotBase(rightTrain,leftTrain,150);
 
 
 void autonomous() {
 
-    if(ac == "red") {
-      if(as == "right") {
+    if(autonColor == "red") {
+      if(autonSquare == "right") {
 
           //right square red side
+
 
       } else {
 
@@ -46,7 +34,7 @@ void autonomous() {
 
       }
     } else {
-      if(as == "right") {
+      if(autonSquare == "right") {
 
           //right square blue side
 
@@ -56,12 +44,21 @@ void autonomous() {
 
       }
     }
-
+    pros::lcd::initialize();
+    pros::lcd::set_text(3, autonColor + " team " + autonSquare + " side");
     /*
+    pros::delay(500);
     base.forwardSpeed(30);
     pros::delay(500);
     base.stop();
-    pros::delay(500);
-    base.stationaryTurn(1000, 35);
+    pros::delay(1000);
+    leftTrain.moveVelocity(15);
+    rightTrain.moveVelocity(-15);
     */
+    while(true) {
+      pros::lcd::set_text(4, "Left Encoder: " + std::to_string(left.get_value()));
+      pros::lcd::set_text(4, "Right Encoder: " + std::to_string(right.get_value()));
+    }
+
+
 }
