@@ -67,7 +67,12 @@ void initialize(void);
 void disabled(void);
 void competition_initialize(void);
 void opcontrol(void);
+void sleep(int);
+int abs(int);
 
+//auton selector global variables
+extern std::string autonColor;
+extern std::string autonSquare;
 
 
 //Nobody wants to write out "pros::delay" everytime
@@ -78,11 +83,13 @@ void sleep(int ms) {
 
 
 //absolute value function
+
 int abs(int a) {
   if(a<0) {
     return a*-1;
   }
-  return a;}
+  return a;
+}
 
 #ifdef __cplusplus
 }

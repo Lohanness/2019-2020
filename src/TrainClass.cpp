@@ -1,4 +1,3 @@
-
 #include "main.h"
 
 
@@ -37,7 +36,7 @@ public:
   }
 
   int getEncoderVal() {
-      return  enc.get_value(); 
+      return  enc.get_value();
   }
 
 };

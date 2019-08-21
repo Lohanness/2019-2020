@@ -1,6 +1,5 @@
 #include "main.h"
 #include "RobotBaseClass.cpp"
-
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -18,7 +17,9 @@ void resetEncoders(pros::ADIEncoder enc) {
   enc.reset();
 }
 
-//declare motors
+std::string ac = autonColor;
+std::string as = autonSquare;
+
 pros::Motor fRight(1, true);
 pros::Motor bRight(2, true);
 pros::Motor fLeft(3);
@@ -34,9 +35,33 @@ RobotBase base = RobotBase(rightTrain,leftTrain,150);
 
 void autonomous() {
 
+    if(ac == "red") {
+      if(as == "right") {
+
+          //right square red side
+
+      } else {
+
+          //left square red side
+
+      }
+    } else {
+      if(as == "right") {
+
+          //right square blue side
+
+      } else {
+
+          //left square blue side
+
+      }
+    }
+
+    /*
     base.forwardSpeed(30);
-    sleep(500);
+    pros::delay(500);
     base.stop();
-    sleep(500);
+    pros::delay(500);
     base.stationaryTurn(1000, 35);
+    */
 }

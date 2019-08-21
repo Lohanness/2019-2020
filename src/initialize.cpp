@@ -1,25 +1,26 @@
 #include "main.h"
+#include "RobotBaseClass.cpp"
+
+
 bool i = false;
 bool x = false;
 
-std::string auton;
-std::string square;
 void leftbutton() {
 	i=!i;
-	auton="blue";
+	autonColor="blue";
 	if (!i){
-		auton="red";
+		autonColor="red";
 	}
-	pros::lcd::set_text(1, auton);
+	pros::lcd::set_text(1, autonColor);
 }
 
 void centerbutton() {
 	x=!x;
-	square="right";
+	autonSquare="right";
 	if (!x){
-		square="left";
+		autonSquare="left";
 	}
-	pros::lcd::set_text(2, square);
+	pros::lcd::set_text(2, autonSquare);
 }
 /**
  * Runs initialization code. This occurs as soon as the program is started.
