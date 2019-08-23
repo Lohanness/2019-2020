@@ -18,5 +18,25 @@
 
 
 void opcontrol() {
+  while(true) {
+    pros::Controller master(pros::E_CONTROLLER_MASTER);
+    int leftSpeed = master.get_analog(ANALOG_LEFT_Y);
+    int rightSpeed = master.get_analog(ANALOG_RIGHT_Y);
 
+    if(leftSpeed<-10) {
+      leftTrain.moveVelocity(-2*(leftSpeed*leftSpeed)/100);
+    } else if(leftSpeed > 10) {
+      leftTrain.moveVelocity(2*(leftSpeed*leftSpeed)/100);
+    } else {
+      leftTrain.stop();
+    }
+
+    if(rightSpeed<-10) {
+      rightTrain.moveVelocity(-2*(rightSpeed*rightSpeed)/100);
+    } else if(rightSpeed >10) {
+      rightTrain.moveVelocity(2*(rightSpeed*rightSpeed)/100);
+    } else {
+      rightTrain.stop();
+    }
+  }
 }
