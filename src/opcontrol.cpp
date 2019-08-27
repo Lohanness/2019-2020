@@ -16,10 +16,20 @@
  * task, not resume it from where it left off.
  */
 
+bool isout=false;
+
+void dispenser() {
+  if(isout) {
+  dispense.move_relative(8500, 200);
+  return;
+  }
+  dispense.move_relative(-8500,200);
+}
+
 
 void opcontrol() {
+
   while(true) {
-    pros::Controller master(pros::E_CONTROLLER_MASTER);
     int leftSpeed = master.get_analog(ANALOG_LEFT_Y);
     int rightSpeed = master.get_analog(ANALOG_RIGHT_Y);
 
@@ -38,5 +48,20 @@ void opcontrol() {
     } else {
       rightTrain.stop();
     }
+
+    if(master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
+      isout = !isout;
+      dispenser();
+    }
+
+    pros::lcd::set_text(5, "Right ticks: " + std::to_string(fRight.get_position()) + " , " + std::to_string(bRight.get_position()));
+    pros::lcd::set_text(5, "Left ticks: " + std::to_string(fLeft.get_position()) + " , " + std::to_string(bLeft.get_position()));
+  }
+
+  while(true) {
+
+    pros::delay(50);
+    base.forwardTile(1,25);
+    pros::delay(2500);
   }
 }

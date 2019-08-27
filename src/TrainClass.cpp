@@ -27,8 +27,8 @@ public:
   }
 
   void moveRelative(int distance, int velocity) { //rotate the train a specified amount of degrees at a specified speed
-      front.move_velocity(velocity);
-      back.move_velocity(velocity);
+      front.move_relative(distance*onetile, velocity);
+      back.move_relative(distance*onetile, velocity);
   }
 
   void resetEncoder() {

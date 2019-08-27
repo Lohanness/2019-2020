@@ -44,21 +44,8 @@ void autonomous() {
 
       }
     }
-    pros::lcd::initialize();
-    pros::lcd::set_text(3, autonColor + " team " + autonSquare + " side");
-    /*
-    pros::delay(500);
-    base.forwardSpeed(30);
-    pros::delay(500);
-    base.stop();
-    pros::delay(1000);
-    leftTrain.moveVelocity(15);
-    rightTrain.moveVelocity(-15);
-    */
-    while(true) {
-      pros::lcd::set_text(4, "Left Encoder: " + std::to_string(left.get_value()));
-      pros::lcd::set_text(4, "Right Encoder: " + std::to_string(right.get_value()));
-    }
 
+
+    base.forwardTile(1,50);
 
 }
