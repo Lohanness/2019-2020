@@ -18,15 +18,6 @@
 
 bool isout=false;
 
-void dispenser() {
-  if(isout) {
-  dispense.move_relative(8500, 200);
-  return;
-  }
-  dispense.move_relative(-8500,200);
-}
-
-
 void opcontrol() {
 
   while(true) {
@@ -34,34 +25,29 @@ void opcontrol() {
     int rightSpeed = master.get_analog(ANALOG_RIGHT_Y);
 
     if(leftSpeed<-10) {
-      leftTrain.moveVelocity(-2*(leftSpeed*leftSpeed)/100);
+      leftTrain.rpm(-2*(leftSpeed*leftSpeed)/100);
     } else if(leftSpeed > 10) {
-      leftTrain.moveVelocity(2*(leftSpeed*leftSpeed)/100);
+      leftTrain.rpm(2*(leftSpeed*leftSpeed)/100);
     } else {
       leftTrain.stop();
     }
 
     if(rightSpeed<-10) {
-      rightTrain.moveVelocity(-2*(rightSpeed*rightSpeed)/100);
+      rightTrain.rpm(-2*(rightSpeed*rightSpeed)/100);
     } else if(rightSpeed >10) {
-      rightTrain.moveVelocity(2*(rightSpeed*rightSpeed)/100);
+      rightTrain.rpm(2*(rightSpeed*rightSpeed)/100);
     } else {
       rightTrain.stop();
     }
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
-      isout = !isout;
-      dispenser();
+      dispenser.rpm(-200);
+    } else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)) {
+      dispenser.rpm(200);
+    } else {
+      dispenser.stop();
     }
-
-    pros::lcd::set_text(5, "Right ticks: " + std::to_string(fRight.get_position()) + " , " + std::to_string(bRight.get_position()));
-    pros::lcd::set_text(5, "Left ticks: " + std::to_string(fLeft.get_position()) + " , " + std::to_string(bLeft.get_position()));
   }
 
-  while(true) {
 
-    pros::delay(50);
-    base.forwardTile(1,25);
-    pros::delay(2500);
-  }
 }

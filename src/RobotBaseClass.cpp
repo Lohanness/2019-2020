@@ -18,77 +18,29 @@ class RobotBase {
 */
 
   void forwardSpeed(int speed) {
-     lt.moveVelocity(speed);
-     rt.moveVelocity(speed);
+     lt.rpm(speed);
+     rt.rpm(speed);
   }
 
   void backwardSpeed(int speed) {
     speed*=-1;
-    lt.moveVelocity(speed);
-    rt.moveVelocity(speed);
+    lt.rpm(speed);
+    rt.rpm(speed);
   }
 
   void forwardTile(int tiles, int speed) {
-      lt.moveRelative(tiles,speed);
-      rt.moveRelative(tiles, speed);
+      lt.moveTick(tiles,speed);
+      rt.moveTick(tiles, speed);
   }
 
   void backwardTile(int tiles, int speed) {
-      lt.moveRelative(-tiles,speed);
-      rt.moveRelative(-tiles, speed);
+      lt.moveTick(-tiles,speed);
+      rt.moveTick(-tiles, speed);
   }
 
   void stop() {
     lt.stop();
     rt.stop();
   }
-
-  void printEncoders() {
-    pros::lcd::set_text(1,"Right Encoder: "  + std::to_string(lt.getEncoderVal()));
-    pros::lcd::set_text(2,"Left Encoder: "  + std::to_string(rt.getEncoderVal()));
-  }
-  void resetEncoders() {
-    lt.resetEncoder();
-    rt.resetEncoder();
-  }
-
-
-  void stationaryTurn(int degrees, int speed) {
-    resetEncoders();
-    int ticksWanted = degrees*ticksPerDeg;
-    bool reached = false;
-    int ltEnc = abs(lt.getEncoderVal());
-    int rtEnc = abs(rt.getEncoderVal());
-
-    while(!reached) {
-
-      printEncoders();
-      ltEnc = abs(lt.getEncoderVal());
-      rtEnc = abs(rt.getEncoderVal());
-
-      if(ltEnc+rtEnc >= ticksWanted) {
-        reached = true;
-        continue;
-      }
-
-      lt.moveVelocity(speed);
-      rt.moveVelocity(-speed);
-
-      pros::delay(10);
-
-    }
-    stop();
-    resetEncoders();
-  }
-
-
-
-
-  void rotateAndMove(int degrees, int distance, int speed) {
-    stationaryTurn(degrees, speed);
-    forwardTile(distance,speed);
-  }
-
-
 
 };
