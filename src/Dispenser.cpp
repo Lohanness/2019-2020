@@ -7,6 +7,9 @@ public:
   pros::Motor two;
   int tick;
   bool deploying;
+  int pastTick = 0;
+  int currentTick = 0;
+  int confirmedSame = 0;
   Dispenser(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), one(m1), two(m2){}; //Train(Front motor, Back motor, ADIEncoder class, Encoder ticks per tile)
 
     //We must make an initializing function to obtain the motors in the train
@@ -33,6 +36,20 @@ public:
       two.move_relative(tick, velocity);
   }
   int getPos() {
-    return one.get_position();
+    return abs(int(one.get_position()));
+  }
+
+  void checkDeploying() {
+    currentTick = getPos();
+    if(currentTick == pastTick) {
+      if(confirmedSame == 4) {
+        deploying = false;
+        confirmedSame = 0;
+      }
+      confirmedSame+=1;
+    } else {
+      pastTick = currentTick;
+      confirmedSame = 0;
+    }
   }
 };

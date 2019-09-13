@@ -19,8 +19,6 @@
 bool isout=false;
 
 void opcontrol() {
-  int pastdeploytick = 0;
-  int confirmedSame = 0;
   while(true) {
     int leftSpeed = master.get_analog(ANALOG_LEFT_Y);
     int rightSpeed = master.get_analog(ANALOG_RIGHT_Y);
@@ -54,19 +52,12 @@ void opcontrol() {
     }
 
 
-    int currentTick = dispenser.getPos();
-    if(currentTick == pastdeploytick) {
-      if(confirmedSame == 4) {
-        dispenser.deploying = false;
-        confirmedSame = 0;
-      }
-      confirmedSame+=1;
-    } else {
-      pastdeploytick = currentTick;
-      confirmedSame = 0;
-    }
+    dispenser.checkDeploying();
+    dr4b.checkRaising();
     pros::delay(5);
   }
+
+
 
 
 }

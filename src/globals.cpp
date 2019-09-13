@@ -19,5 +19,5 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 Train rightTrain = Train(1300,right); //create the right train
 Train leftTrain = Train(1300,left);    //create the left train
 Dispenser dispenser = Dispenser(8000,dispense, dispense2);
-DR4B lift = DR4B(500,dr4b1,dr4b2);
+DR4B lift = DR4B(115,dr4b1,dr4b2);
 RobotBase base = RobotBase(rightTrain,leftTrain,150);
