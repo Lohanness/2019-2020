@@ -6,6 +6,7 @@ public:
   pros::Motor one;
   pros::Motor two;
   int tick;
+  bool deploying;
   Dispenser(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), one(m1), two(m2){}; //Train(Front motor, Back motor, ADIEncoder class, Encoder ticks per tile)
 
     //We must make an initializing function to obtain the motors in the train
@@ -25,9 +26,13 @@ public:
     two.move_velocity(0);
   }
 
-  void extendOut(int distance, int velocity) {
+  void extend(int velocity) {
+    deploying = true;
     //rotate the train a specified amount of degrees at a specified speed
-      one.move_relative(distance*tick, velocity);
-      two.move_relative(distance*tick, velocity);
+      one.move_relative(tick, velocity);
+      two.move_relative(tick, velocity);
+  }
+  int getPos() {
+    return one.get_position();
   }
 };

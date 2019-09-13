@@ -19,7 +19,8 @@
 bool isout=false;
 
 void opcontrol() {
-
+  int pastdeploytick = 0;
+  int confirmedSame = 0;
   while(true) {
     int leftSpeed = master.get_analog(ANALOG_LEFT_Y);
     int rightSpeed = master.get_analog(ANALOG_RIGHT_Y);
@@ -44,9 +45,27 @@ void opcontrol() {
       dispenser.rpm(-200);
     } else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)) {
       dispenser.rpm(200);
-    } else {
+    } else if(!dispenser.deploying){
       dispenser.stop();
     }
+
+    if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && !dispenser.deploying) {
+      dispenser.extend(50);
+    }
+
+
+    int currentTick = dispenser.getPos();
+    if(currentTick == pastdeploytick) {
+      if(confirmedSame == 4) {
+        dispenser.deploying = false;
+        confirmedSame = 0;
+      }
+      confirmedSame+=1;
+    } else {
+      pastdeploytick = currentTick;
+      confirmedSame = 0;
+    }
+    pros::delay(5);
   }
 
 
