@@ -8,14 +8,6 @@ class RobotBase {
   int ticksPerDeg;
   RobotBase(Train rightTrain, Train leftTrain,int ticksFor90Deg=150): lt(leftTrain), rt(rightTrain), ticksPerDeg(ticksFor90Deg/90) {};
 
-/*
-  int abs(int a) {
-    if(a<0) {
-      a*=-1;
-    }
-    return a;
-  }
-*/
 
   void forwardSpeed(int speed) {
      lt.rpm(speed);

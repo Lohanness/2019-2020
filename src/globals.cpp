@@ -12,7 +12,7 @@ pros::Motor dr4b1(3);
 pros::Motor dr4b2(4,true);
 pros::Motor dispense(5);
 pros::Motor dispense2(6,true);
-pros::Motor claw(7);
+pros::Motor clawM(7);
 pros::Motor knocker(8);
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 

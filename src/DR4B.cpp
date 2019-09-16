@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 class DR4B {
 public:
   pros::Motor rightdr4b;
@@ -10,21 +9,14 @@ public:
   int pastTick = 0;
   int currentTick = 0;
   int confirmedSame = 0;
-  DR4B(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), rightdr4b(m1), leftdr4b(m2){}; //Train(Front motor, Back motor, ADIEncoder class, Encoder ticks per tile)
+  DR4B(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), rightdr4b(m1), leftdr4b(m2){};
 
-    //We must make an initializing function to obtain the motors in the train
-    /*
-    Train(int frontMotorPort,int backMotorPort, int ADIEncoderPort) {
-      pros::Motor mots[] = {pros::Motor(frontMotorPort),pros::Motor(backMotorPort)}; //adds the motors to the train
-      //enc = encoder;
-    }
-    */
-  void rpm(int speedRPM) { //takes RPM at which to rotate the train
+  void rpm(int speedRPM) {
     rightdr4b.move_velocity(speedRPM);
     leftdr4b.move_velocity(speedRPM);
   }
 
-  void stop() { //stop moving the train
+  void stop() {
     rightdr4b.move_velocity(0);
     leftdr4b.move_velocity(0);
   }

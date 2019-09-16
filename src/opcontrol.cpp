@@ -39,19 +39,20 @@ void opcontrol() {
       rightTrain.stop();
     }
 
-    if(master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
-      dispenser.rpm(-200);
-    } else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)) {
-      dispenser.rpm(200);
-    } else if(!dispenser.deploying){
-      dispenser.stop();
+
+    if(master.get_digital(E_CONTROLLER_DIGITAL_L1) && !dispenser.deploying) {
+      dispenser.cycle(100);
+    }
+    if(master.get_digital(E_CONTROLLER_DIGITAL_L2) && !claw.moving) {
+      claw.go(100);
+    }
+    if(master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
+      dr4b.rpm(150);
+    } else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)) {
+      dr4b.rpm(-150);
     }
 
-    if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && !dispenser.deploying) {
-      dispenser.extend(50);
-    }
-
-
+    claw.checkMoving();
     dispenser.checkDeploying();
     dr4b.checkRaising();
     pros::delay(5);
