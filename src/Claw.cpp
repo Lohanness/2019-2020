@@ -23,6 +23,9 @@ class Claw {
       return abs(int(m.get_position()));
     }
 
+    void move(int vel) {
+      m.move_velocity(vel);
+    }
     void checkMoving() {
       currentTick = getPos();
       if(currentTick == pastTick) {

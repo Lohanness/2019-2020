@@ -6,7 +6,7 @@ public:
   pros::Motor mot;
   int onetile;
   Train(int ot, pros::Motor m): onetile(ot),  mot(m) {}; //Train(Front motor, Back motor, ADIEncoder class, Encoder ticks per tile)
-  
+
   void rpm(int speedRPM) { //takes RPM at which to rotate the train
       mot.move_velocity(speedRPM);
   }
