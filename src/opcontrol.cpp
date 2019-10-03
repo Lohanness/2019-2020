@@ -17,7 +17,7 @@
  */
 
 bool isout=false;
-
+bool holding = false;
 void opcontrol() {
   while(true) {
     int leftSpeed = master.get_analog(ANALOG_LEFT_Y);
@@ -63,6 +63,21 @@ void opcontrol() {
       dr4b.stop();
     }
 
+    if(master.get_digital(E_CONTROLLER_DIGITAL_A)) {
+      claw.move(50);
+    } else if(master.get_digital(E_CONTROLLER_DIGITAL_B)) {
+      claw.move(-50);
+    } else {
+      claw.stop();
+    }
+
+    if(master.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && !holding) {
+      base.cycleSpeedMode();
+      holding = true;
+    }
+    if(!master.get_digital(E_CONTROLLER_DIGITAL_RIGHT)) {
+      holding = false;
+    }
 
     claw.checkMoving();
     dispenser.checkDeploying();

@@ -9,7 +9,9 @@ class Claw {
     int pastTick = 0;
     int currentTick = 0;
     int confirmedSame = 0;
-    Claw(int tick, pros::Motor mot): ticks(tick), m(mot) {};
+    Claw(int tick, pros::Motor mot): ticks(tick), m(mot) {
+      m.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    };
 
     void go(int vel) {
       if(open) {
@@ -26,6 +28,11 @@ class Claw {
     void move(int vel) {
       m.move_velocity(vel);
     }
+
+    void stop() {
+      m.move_velocity(0);
+    }
+
     void checkMoving() {
       currentTick = getPos();
       if(currentTick == pastTick) {

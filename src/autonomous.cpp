@@ -44,4 +44,5 @@ void autonomous() {
 
       }
     }
+    base.forwardTile(1, 50);
 }

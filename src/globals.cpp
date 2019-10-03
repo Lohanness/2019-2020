@@ -9,7 +9,7 @@ std::string autonSquare = "right";
 pros::Motor right(1,true);          //right drive
 pros::Motor left(2);      //left drive
 pros::Motor dr4b1(3);          //right side dr4b
-pros::Motor dr4b2(4);     //left side dr4b
+pros::Motor dr4b2(4,true);     //left side dr4b
 pros::Motor dispense(5);       //left side dispenser
 pros::Motor dispense2(6,true); //right side dispenser
 pros::Motor clawM(7);

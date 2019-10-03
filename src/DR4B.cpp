@@ -9,7 +9,10 @@ public:
   int pastTick = 0;
   int currentTick = 0;
   int confirmedSame = 0;
-  DR4B(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), rightdr4b(m1), leftdr4b(m2){};
+  DR4B(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), rightdr4b(m1), leftdr4b(m2){
+    rightdr4b.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    leftdr4b.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  };
 
   void rpm(int speedRPM) {
     rightdr4b.move_velocity(speedRPM);
@@ -19,9 +22,10 @@ public:
   void stop() {
     rightdr4b.move_velocity(0);
     leftdr4b.move_velocity(0);
+
   }
 
-  void Rise(int percent, int velocity) {
+  void rise(int percent, int velocity) {
       rightdr4b.move_relative((percent/100)*tick, velocity);
       leftdr4b.move_relative((percent/100)*tick, velocity);
   }

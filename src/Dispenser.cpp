@@ -11,7 +11,10 @@ public:
   int pastTick = 0;
   int currentTick = 0;
   int confirmedSame = 0;
-  Dispenser(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), one(m1), two(m2){};
+  Dispenser(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), one(m1), two(m2){
+    m1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    m2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  };
 
   void rpm(int speedRPM) {
     one.move_velocity(speedRPM);
@@ -39,7 +42,7 @@ public:
     }
     mode+=1;
   }
-  
+
   int getPos() {
     return abs(int(one.get_position()));
   }
