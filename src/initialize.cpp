@@ -16,9 +16,9 @@ void leftbutton() {
 
 void centerbutton() {
 	x=!x;
-	autonSquare="right";
+	autonSquare="1";
 	if (!x){
-		autonSquare="left";
+		autonSquare="2";
 	}
 	pros::lcd::set_text(2, autonSquare);
 }
@@ -34,6 +34,8 @@ void rightbutton() {
  */
 void initialize() {
 	pros::lcd::initialize();
+	pros::lcd::set_text(1, autonColor);
+	pros::lcd::set_text(2, autonSquare);
 	pros::lcd::register_btn0_cb(centerbutton);
 	pros::lcd::register_btn1_cb(leftbutton);
 	pros::lcd::register_btn2_cb(rightbutton);

@@ -18,12 +18,10 @@ void resetEncoders(pros::ADIEncoder enc) {
 }
 
 
-
-
 void autonomous() {
 
     if(autonColor == "red") {
-      if(autonSquare == "right") {
+      if(autonSquare == "1") {
 
           //right square red side
 
@@ -34,7 +32,7 @@ void autonomous() {
 
       }
     } else {
-      if(autonSquare == "right") {
+      if(autonSquare == "1") {
 
           //right square blue side
 
@@ -45,4 +43,5 @@ void autonomous() {
       }
     }
     base.forwardTile(1, 50);
+    base.rotate(rightT,90,50);
 }

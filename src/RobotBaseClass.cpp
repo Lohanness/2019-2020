@@ -1,13 +1,14 @@
 #include "TrainClass.cpp"
 #include "main.h"
 
+
 class RobotBase {
   public:
   Train lt;
   Train rt;
-  int ticksPerDeg;
+  double ticksPerDeg;
   double controlSpeed = 1;
-  RobotBase(Train rightTrain, Train leftTrain,int ticksFor90Deg=150): lt(leftTrain), rt(rightTrain), ticksPerDeg(ticksFor90Deg/90) {};
+  RobotBase(Train rightTrain, Train leftTrain, double td): lt(leftTrain), rt(rightTrain), ticksPerDeg(td) {};
 
 
   void forwardSpeed(int speed) {
@@ -31,16 +32,23 @@ class RobotBase {
       rt.moveTick(-tiles,speed*controlSpeed);
   }
 
+  void rotate(int direction,int degrees, int speed){
+      lt.moveTick(-1*direction*degrees*ticksPerDeg, speed);
+      rt.moveTick(direction*degrees*ticksPerDeg, speed);
+
+  }
+
   void stop() {
     lt.stop();
     rt.stop();
   }
 
+
   void cycleSpeedMode() {
     if(controlSpeed == 1) {
       controlSpeed = 0.5;
-      return;
+    } else {
+      controlSpeed = 1;
     }
-    controlSpeed = 1;
   }
 };
