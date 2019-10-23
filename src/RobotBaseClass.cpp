@@ -8,34 +8,74 @@ class RobotBase {
   Train rt;
   double ticksPerDeg;
   double controlSpeed = 1;
-  RobotBase(Train rightTrain, Train leftTrain, double td): lt(leftTrain), rt(rightTrain), ticksPerDeg(td) {};
+  int threshold = 10;
+  bool moving = false;
+  bool logDrive;
+  RobotBase(Train rightTrain, Train leftTrain, double td, bool lD, int thr): lt(leftTrain), rt(rightTrain), ticksPerDeg(td), logDrive(lD), threshold(thr) {};
 
 
-  void forwardSpeed(int speed) {
-     lt.rpm(speed*controlSpeed);
-     rt.rpm(speed*controlSpeed);
+  void rpms(int Rspeed, int Lspeed) {
+    if(logDrive) {
+      if(Lspeed < -threshold) {
+        lt.rpm(-2*(Lspeed*Lspeed)/100);
+      } else if(Lspeed > threshold) {
+        lt.rpm(2*(Lspeed*Lspeed)/100);
+      } else {
+        lt.stop();
+      }
+
+      if(Rspeed < -threshold) {
+        rt.rpm(-2*(Rspeed*Rspeed)/100);
+      } else if(Rspeed > threshold) {
+        rt.rpm(2*(Rspeed*Rspeed)/100);
+      } else {
+        rt.stop();
+      }
+
+    } else {
+      if(Rspeed > threshold || Rspeed < -threshold) {
+        rt.rpm(Rspeed*2);
+      } else {
+        rt.stop();
+      }
+      if(Lspeed > threshold || Lspeed < -threshold) {
+        lt.rpm(Lspeed*2);
+      } else {
+        lt.stop();
+      }
+    }
   }
 
-  void backwardSpeed(int speed) {
-    speed*=-1;
-    lt.rpm(speed*controlSpeed);
-    rt.rpm(speed*controlSpeed);
-  }
 
-  void forwardTile(int tiles, int speed) {
+
+  void forwardTile(double tiles, int speed) {
+      lt.resetEncoders();
+      rt.resetEncoders();
       lt.moveTick(tiles,speed*controlSpeed);
       rt.moveTick(tiles,speed*controlSpeed);
+      while(lt.getPos() < tiles) {
+        pros::delay(2);
+        pros::lcd::set_text(1, "Moving");
+      }
+      pros::lcd::clear_line(1);
   }
 
-  void backwardTile(int tiles, int speed) {
+  void backwardTile(double tiles, int speed) {
       lt.moveTick(-tiles,speed*controlSpeed);
       rt.moveTick(-tiles,speed*controlSpeed);
   }
 
   void rotate(int direction,int degrees, int speed){
-      lt.moveTick(-1*direction*degrees*ticksPerDeg, speed);
-      rt.moveTick(direction*degrees*ticksPerDeg, speed);
-
+      int rOriginal = rt.getPos();
+      int lOriginal = lt.getPos();
+      int lDesired = -1*direction*degrees*ticksPerDeg;
+      int rDesired = direction*degrees*ticksPerDeg;
+      lt.moveTick(lDesired, speed);
+      rt.moveTick(rDesired, speed);
+      moving = true;
+      while(lt.getPos() != lDesired + lOriginal  && rt.getPos() < rDesired + rOriginal) {
+        pros::delay(2);
+      }
   }
 
   void stop() {
@@ -46,7 +86,7 @@ class RobotBase {
 
   void cycleSpeedMode() {
     if(controlSpeed == 1) {
-      controlSpeed = 0.5;
+      controlSpeed = 0.25;
     } else {
       controlSpeed = 1;
     }

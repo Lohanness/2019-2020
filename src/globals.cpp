@@ -8,6 +8,7 @@ std::string autonSquare = "right";
 
 int rightT = -1;
 int leftT= 1;
+int threshold = 10;
 
 pros::Motor right(1,true);          //right drive
 pros::Motor left(2);      //left drive
@@ -21,7 +22,7 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 Train rightTrain = Train(1300,right); //create the right train
 Train leftTrain = Train(1300,left);    //create the left train
-Dispenser dispenser = Dispenser(8000,dispense, dispense2);
+Dispenser dispenser = Dispenser(1400,dispense, dispense2);
 DR4B dr4b  = DR4B(117,dr4b1,dr4b2);
-RobotBase base = RobotBase(rightTrain,leftTrain,8.5);
+RobotBase base = RobotBase(rightTrain,leftTrain,8.5,false,10);
 Claw claw = Claw(35,clawM);

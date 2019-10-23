@@ -42,6 +42,7 @@ void autonomous() {
 
       }
     }
-    base.forwardTile(1, 50);
-    base.rotate(rightT,90,50);
+    base.forwardTile(0.5, 50);
+    //dispenser.extend(1,100);
+    //pros::delay(5000);
 }

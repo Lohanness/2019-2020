@@ -15,7 +15,7 @@ extern Dispenser dispenser;
 extern DR4B dr4b;
 extern Claw claw;
 extern RobotBase base;
-extern int rightT, leftT;
+extern int rightT, leftT, threshold;
 extern pros::Controller master;
 
 #endif

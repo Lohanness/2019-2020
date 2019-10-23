@@ -5,6 +5,7 @@ class Claw {
     pros::Motor m;
     bool open;
     bool moving;
+    bool grabbing = false;
     int ticks;
     int pastTick = 0;
     int currentTick = 0;
@@ -13,13 +14,7 @@ class Claw {
       m.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     };
 
-    void go(int vel) {
-      if(open) {
-        m.move_relative(ticks,vel);
-      } else {
-        m.move_relative(ticks,-1*vel);
-      }
-    }
+
 
     int getPos() {
       return abs(int(m.get_position()));

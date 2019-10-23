@@ -18,31 +18,24 @@
 
 bool isout=false;
 bool holding = false;
+bool holding2 = false;
+
 void opcontrol() {
+
   while(true) {
     int leftSpeed = master.get_analog(ANALOG_LEFT_Y);
     int rightSpeed = master.get_analog(ANALOG_RIGHT_Y);
 
-    if(leftSpeed<-10) {
-      leftTrain.rpm(-2*(leftSpeed*leftSpeed)/100);
-    } else if(leftSpeed > 10) {
-      leftTrain.rpm(2*(leftSpeed*leftSpeed)/100);
-    } else {
-      leftTrain.stop();
-    }
-
-    if(rightSpeed<-10) {
-      rightTrain.rpm(-2*(rightSpeed*rightSpeed)/100);
-    } else if(rightSpeed >10) {
-      rightTrain.rpm(2*(rightSpeed*rightSpeed)/100);
-    } else {
+      base.rpms(rightSpeed,leftSpeed);
+    if(!(rightSpeed > threshold || rightSpeed < -threshold)) {
       rightTrain.stop();
     }
-
-
-    if(master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
+    if(!(leftSpeed > threshold || leftSpeed < -threshold)) {
+      leftTrain.stop();
+    }
+    if(master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
       dispenser.rpm(150);
-    } else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)) {
+    } else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)) {
       dispenser.rpm(-150);
     } else {
       dispenser.stop();
@@ -55,10 +48,10 @@ void opcontrol() {
       claw.go(100);
     }
     */
-    if(master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
-      dr4b.rpm(150);
-    } else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)) {
-      dr4b.rpm(-150);
+    if(master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
+      dr4b.rpm(200);
+    } else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)) {
+      dr4b.rpm(-100);
     } else {
       dr4b.stop();
     }
@@ -79,6 +72,13 @@ void opcontrol() {
       holding = false;
     }
 
+    if(master.get_digital(E_CONTROLLER_DIGITAL_UP)) {
+      dr4b1.move_velocity(20);
+    } else if(!(master.get_digital(E_CONTROLLER_DIGITAL_L2) || master.get_digital(E_CONTROLLER_DIGITAL_L1))) {
+      dr4b1.move_velocity(0);
+    }
+
+    pros::lcd::set_text(3,"");
     claw.checkMoving();
     dispenser.checkDeploying();
     dr4b.checkRaising();
