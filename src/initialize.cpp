@@ -39,7 +39,6 @@ void initialize() {
 	pros::lcd::register_btn0_cb(centerbutton);
 	pros::lcd::register_btn1_cb(leftbutton);
 	pros::lcd::register_btn2_cb(rightbutton);
-	//autonomous();
 }
 
 /**

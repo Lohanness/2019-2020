@@ -51,6 +51,8 @@ public:
     return abs(int(one.get_position()));
   }
 
+
+
   void checkDeploying() {
     currentTick = getPos();
     if(currentTick == pastTick) {
@@ -64,6 +66,8 @@ public:
       confirmedSame = 0;
     }
   }
+
+  
   void resetEncoders() {
     one.tare_position();
     two.tare_position();

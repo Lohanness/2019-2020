@@ -13,9 +13,6 @@
  */
 
 
-void resetEncoders(pros::ADIEncoder enc) {
-  enc.reset();
-}
 
 
 void autonomous() {

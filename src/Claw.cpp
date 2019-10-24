@@ -28,6 +28,8 @@ class Claw {
       m.move_velocity(0);
     }
 
+
+
     void checkMoving() {
       currentTick = getPos();
       if(currentTick == pastTick) {
@@ -40,5 +42,9 @@ class Claw {
         pastTick = currentTick;
         confirmedSame = 0;
       }
+    }
+
+    void resetEncoder() {
+      m.tare_position();
     }
 };

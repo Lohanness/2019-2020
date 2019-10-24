@@ -49,4 +49,9 @@ public:
       confirmedSame = 0;
     }
   }
+
+  void resetEncoders() {
+    rightdr4b.tare_position();
+    leftdr4b.tare_position();
+  }
 };
