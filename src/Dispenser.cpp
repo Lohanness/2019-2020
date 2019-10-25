@@ -30,8 +30,9 @@ public:
       deploying = true;
       one.move_relative((percent/100)*tick, velocity);
       two.move_relative((percent/100)*tick, velocity);
-      while(one.get_position() < (percent/100)*tick) {
-        pros::delay(2);
+      while(deploying) {
+          checkDeploying();
+          pros::delay(2);
       }
 
   }
@@ -67,7 +68,7 @@ public:
     }
   }
 
-  
+
   void resetEncoders() {
     one.tare_position();
     two.tare_position();

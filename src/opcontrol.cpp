@@ -73,7 +73,7 @@ void opcontrol() {
     }
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_UP)) {
-      dr4b1.move_velocity(20);
+      dr4b1.move_velocity(50);
     } else if(!(master.get_digital(E_CONTROLLER_DIGITAL_L2) || master.get_digital(E_CONTROLLER_DIGITAL_L1))) {
       dr4b1.move_velocity(0);
     }

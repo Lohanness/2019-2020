@@ -9,6 +9,9 @@ class RobotBase {
   double ticksPerDeg;
   double controlSpeed = 1;
   int threshold = 10;
+  int pastTick = 0;
+  int currentTick = 0;
+  int confirmedSame = 0;
   bool moving = false;
   bool logDrive;
   RobotBase(Train rightTrain, Train leftTrain, double td, bool lD, int thr): lt(leftTrain), rt(rightTrain), ticksPerDeg(td), logDrive(lD), threshold(thr) {};
@@ -49,11 +52,13 @@ class RobotBase {
 
 
   void forwardTile(double tiles, int speed) {
+      moving = true;
       lt.resetEncoders();
       rt.resetEncoders();
       lt.moveTick(tiles,speed*controlSpeed);
       rt.moveTick(tiles,speed*controlSpeed);
-      while(lt.getPos() < tiles) {
+      while(moving) {
+        checkMoving();
         pros::delay(2);
         pros::lcd::set_text(1, "Moving");
       }
@@ -89,6 +94,23 @@ class RobotBase {
       controlSpeed = 0.25;
     } else {
       controlSpeed = 1;
+    }
+  }
+
+  int getPos() {
+    return lt.getPos();
+  }
+  void checkMoving() {
+    currentTick = getPos();
+    if(currentTick == pastTick) {
+      if(confirmedSame == 4) {
+        moving = false;
+        confirmedSame = 0;
+      }
+      confirmedSame+=1;
+    } else {
+      pastTick = currentTick;
+      confirmedSame = 0;
     }
   }
 };
