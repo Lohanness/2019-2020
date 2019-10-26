@@ -6,11 +6,11 @@ public:
   pros::Motor one;
   pros::Motor two;
   int tick;
-  int mode;
-  bool deploying;
   int pastTick = 0;
   int currentTick = 0;
   int confirmedSame = 0;
+  bool moving = false;
+
   Dispenser(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), one(m1), two(m2){
     m1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     m2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -27,38 +27,23 @@ public:
   }
 
   void extend(int percent,int velocity) {
-      deploying = true;
+      moving = true;
       one.move_relative((percent/100)*tick, velocity);
       two.move_relative((percent/100)*tick, velocity);
-      while(deploying) {
-          checkDeploying();
-          pros::delay(2);
+      while(moving) {
+          checkMoving();
+          pros::delay(10);
+          pros::lcd::set_text(1, "Moving");
       }
-
-  }
-
-  void cycle(int velocity) {
-    deploying = true;
-    if(!(mode==2)) {
-      one.move_relative(0.5*tick, velocity);
-      two.move_relative(0.5*tick, velocity);
-    } else {
-      one.move_relative(tick,-1*velocity);
-    }
-    mode+=1;
-  }
-
-  int getPos() {
-    return abs(int(one.get_position()));
+      pros::lcd::clear_line(1);
   }
 
 
-
-  void checkDeploying() {
-    currentTick = getPos();
+  void checkMoving() {
+    currentTick = one.get_position();
     if(currentTick == pastTick) {
       if(confirmedSame == 4) {
-        deploying = false;
+        moving = false;
         confirmedSame = 0;
       }
       confirmedSame+=1;

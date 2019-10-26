@@ -3,22 +3,14 @@
 class Claw {
   public:
     pros::Motor m;
-    bool open;
-    bool moving;
-    bool grabbing = false;
-    int ticks;
+    bool moving = false;
     int pastTick = 0;
     int currentTick = 0;
     int confirmedSame = 0;
-    Claw(int tick, pros::Motor mot): ticks(tick), m(mot) {
+    Claw(pros::Motor mot): m(mot) {
       m.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+      m.tare_position();
     };
-
-
-
-    int getPos() {
-      return abs(int(m.get_position()));
-    }
 
     void move(int vel) {
       m.move_velocity(vel);
@@ -28,10 +20,19 @@ class Claw {
       m.move_velocity(0);
     }
 
-
+    void resetPos(int speed) {
+      m.move_absolute(0, speed);
+      moving = true;
+      while(moving) {
+        checkMoving();
+        pros::lcd::set_text(1, "Moving");
+        pros::delay(10);
+      }
+      pros::lcd::clear_line(1);
+    }
 
     void checkMoving() {
-      currentTick = getPos();
+      currentTick = m.get_position();
       if(currentTick == pastTick) {
         if(confirmedSame == 4) {
           moving = false;
@@ -44,7 +45,4 @@ class Claw {
       }
     }
 
-    void resetEncoder() {
-      m.tare_position();
-    }
 };

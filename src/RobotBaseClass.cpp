@@ -14,7 +14,8 @@ class RobotBase {
   int confirmedSame = 0;
   bool moving = false;
   bool logDrive;
-  RobotBase(Train rightTrain, Train leftTrain, double td, bool lD, int thr): lt(leftTrain), rt(rightTrain), ticksPerDeg(td), logDrive(lD), threshold(thr) {};
+  RobotBase(Train rightTrain, Train leftTrain, double td, bool lD, int thr): lt(leftTrain),
+  rt(rightTrain), ticksPerDeg(td), logDrive(lD), threshold(thr) {};
 
 
   void rpms(int Rspeed, int Lspeed) {
@@ -55,30 +56,25 @@ class RobotBase {
       moving = true;
       lt.resetEncoders();
       rt.resetEncoders();
-      lt.moveTick(tiles,speed*controlSpeed);
-      rt.moveTick(tiles,speed*controlSpeed);
+      lt.moveTick(tiles,speed);
+      rt.moveTick(tiles,speed);
       while(moving) {
         checkMoving();
-        pros::delay(2);
+        pros::delay(10);
         pros::lcd::set_text(1, "Moving");
       }
       pros::lcd::clear_line(1);
   }
 
-  void backwardTile(double tiles, int speed) {
-      lt.moveTick(-tiles,speed*controlSpeed);
-      rt.moveTick(-tiles,speed*controlSpeed);
-  }
-
-  void rotate(int direction,int degrees, int speed){
-      int rOriginal = rt.getPos();
-      int lOriginal = lt.getPos();
+  void rotate(int direction, int degrees, int speed){
       int lDesired = -1*direction*degrees*ticksPerDeg;
       int rDesired = direction*degrees*ticksPerDeg;
       lt.moveTick(lDesired, speed);
       rt.moveTick(rDesired, speed);
       moving = true;
-      while(lt.getPos() != lDesired + lOriginal  && rt.getPos() < rDesired + rOriginal) {
+      while(moving) {
+        checkMoving();
+        pros::lcd::set_text(1, "Moving");
         pros::delay(2);
       }
   }
@@ -88,7 +84,6 @@ class RobotBase {
     rt.stop();
   }
 
-
   void cycleSpeedMode() {
     if(controlSpeed == 1) {
       controlSpeed = 0.25;
@@ -97,11 +92,8 @@ class RobotBase {
     }
   }
 
-  int getPos() {
-    return lt.getPos();
-  }
   void checkMoving() {
-    currentTick = getPos();
+    currentTick = lt.getPos();
     if(currentTick == pastTick) {
       if(confirmedSame == 4) {
         moving = false;

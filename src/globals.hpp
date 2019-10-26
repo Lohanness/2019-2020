@@ -9,13 +9,13 @@ using namespace pros;
 #define GLOBALS
 
 extern std::string autonColor, autonSquare;
-extern pros::Motor right, left, dr4b1, dr4b2, dispense, dispense2,clawM,knocker;
+extern pros::Motor right, left, dr4b1, dr4b2, dispense, dispense2,clawM;
 extern Train rightTrain, leftTrain;
 extern Dispenser dispenser;
 extern DR4B dr4b;
 extern Claw claw;
 extern RobotBase base;
-extern int rightT, leftT, threshold;
+extern int rightT, leftT, th;
 extern pros::Controller master;
 
 #endif

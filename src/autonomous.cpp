@@ -1,45 +1,42 @@
 #include "main.h"
 #include "globals.hpp"
-/**
- * Runs the user autonomous code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the autonomous
- * mode. Alternatively, this function may be called in initialize or opcontrol
- * for non-competition testing purposes.
- *
- * If the robot is disabled or communications is lost, the autonomous task
- * will be stopped. Re-enabling the robot will restart the task, not re-start it
- * from where it left off.
- */
-
-
-
 
 void autonomous() {
-
     if(autonColor == "red") {
       if(autonSquare == "1") {
-
-          //right square red side
-
-
+        base.forwardTile(1.1, 50);
+        claw.move(150);
+        base.forwardTile(-.75, 50);
+        base.rotate(leftT, 90, 40);
+        base.forwardTile(0.9, 50);
+        dispenser.extend(80, 150);
+        claw.resetPos(50);
       } else {
-
-          //left square red side
-
+        base.forwardTile(0.25, 50);
+        claw.move(150);
+        base.rotate(rightT, 90, 40);
+        base.forwardTile(0.5, 50);
+        base.rotate(rightT, 45, 40);
+        dispenser.extend(80,150);
+        claw.resetPos(50);
       }
     } else {
       if(autonSquare == "1") {
-
-          //right square blue side
-
+        base.forwardTile(1.1, 50);
+        claw.move(150);
+        base.forwardTile(-.75, 50);
+        base.rotate(rightT, 90, 40);
+        base.forwardTile(0.9, 50);
+        dispenser.extend(80, 150);
+        claw.resetPos(50);
       } else {
-
-          //left square blue side
-
+        base.forwardTile(0.25, 50);
+        claw.move(150);
+        base.rotate(leftT, 90, 40);
+        base.forwardTile(0.5, 50);
+        base.rotate(leftT, 45, 40);
+        dispenser.extend(80,150);
+        claw.resetPos(50);
       }
     }
-    //base.forwardTile(0.5, 50);
-    //dispenser.extend(1,100);
-    //pros::delay(5000);
 }
