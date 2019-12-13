@@ -4,11 +4,14 @@ class Claw {
   public:
     pros::Motor m;
     bool moving = false;
+    bool closing = false;
     int pastTick = 0;
     int currentTick = 0;
     int confirmedSame = 0;
+
     Claw(pros::Motor mot): m(mot) {
       m.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+      m.set_gearing(pros::E_MOTOR_GEARSET_36);
       m.tare_position();
     };
 
@@ -23,11 +26,10 @@ class Claw {
     void resetPos(int speed) {
       m.move_absolute(0, speed);
       moving = true;
-      while(moving) {
-        checkMoving();
-        pros::lcd::set_text(1, "Moving");
-        pros::delay(10);
+      while(m.is_stopped() ==1) {
+        pros::delay(2);
       }
+      moving = false;
       pros::lcd::clear_line(1);
     }
 

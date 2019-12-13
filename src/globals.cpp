@@ -18,10 +18,11 @@ pros::Motor dispense(5);
 pros::Motor dispense2(6,true);
 pros::Motor clawM(7);
 pros::Controller master(pros::E_CONTROLLER_MASTER);
+pros::ADIDigitalOut led(1);
 
 Train rightTrain = Train(1300,right);
 Train leftTrain = Train(1300,left);
 Dispenser dispenser = Dispenser(1400,dispense, dispense2);
-DR4B dr4b  = DR4B(117,dr4b1,dr4b2);
-RobotBase base = RobotBase(rightTrain,leftTrain,8.5,false,th);
+DR4B dr4b  = DR4B(540,dr4b1,dr4b2);
+RobotBase base = RobotBase(rightTrain,leftTrain,9.3,false,th,led);
 Claw claw = Claw(clawM);

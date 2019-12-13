@@ -14,6 +14,8 @@ public:
   Dispenser(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), one(m1), two(m2){
     m1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     m2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    m1.set_gearing(pros::E_MOTOR_GEARSET_36);
+    m2.set_gearing(pros::E_MOTOR_GEARSET_36);
   };
 
   void rpm(int speedRPM) {
@@ -30,12 +32,6 @@ public:
       moving = true;
       one.move_relative((percent/100)*tick, velocity);
       two.move_relative((percent/100)*tick, velocity);
-      while(moving) {
-          checkMoving();
-          pros::delay(10);
-          pros::lcd::set_text(1, "Moving");
-      }
-      pros::lcd::clear_line(1);
   }
 
 

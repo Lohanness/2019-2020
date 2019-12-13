@@ -2,32 +2,33 @@
 #include "globals.hpp"
 
 bool holding = false;
-
+bool driving = false;
 void opcontrol() {
 
   while(true) {
     int leftSpeed = master.get_analog(ANALOG_LEFT_Y);
-    int rightSpeed = master.get_analog(ANALOG_RIGHT_Y);
+    int rightSpeed = master.get_analog(ANALOG_LEFT_X);
 
     base.rpms(rightSpeed,leftSpeed);
-    if(!(rightSpeed > th || rightSpeed < -th)) {
+    if(!(rightSpeed > th || rightSpeed < -th) && !(leftSpeed > th || leftSpeed < -th)) {
       rightTrain.stop();
-    }
-    if(!(leftSpeed > th || leftSpeed < -th)) {
       leftTrain.stop();
     }
 
+    if(master.get_digital(E_CONTROLLER_DIGITAL_UP)) {
+      base.rpms(50,50);
+    }
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
-      dispenser.rpm(150);
+      dispenser.rpm(100);
     } else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)) {
-      dispenser.rpm(-150);
+      dispenser.rpm(-100);
     } else {
       dispenser.stop();
     }
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
-      dr4b.rpm(200);
+      dr4b.rpm(100);
     } else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)) {
       dr4b.rpm(-100);
     } else {
@@ -35,12 +36,16 @@ void opcontrol() {
     }
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_A)) {
-      claw.move(50);
+      claw.move(100);
+      claw.closing = true;
     } else if(master.get_digital(E_CONTROLLER_DIGITAL_B)) {
-      claw.move(-50);
-    } else {
+      claw.move(-100);
+      claw.closing = false;
+    } else if(!claw.closing) {
       claw.stop();
-    }
+    }/*else {
+      claw.stop();
+    }*/
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && !holding) {
       base.cycleSpeedMode();
@@ -50,12 +55,6 @@ void opcontrol() {
       holding = false;
     }
 
-    if(master.get_digital(E_CONTROLLER_DIGITAL_UP)) {
-      dr4b1.move_velocity(50);
-    } else if(!(master.get_digital(E_CONTROLLER_DIGITAL_L2) ||
-     master.get_digital(E_CONTROLLER_DIGITAL_L1))) {
-      dr4b1.move_velocity(0);
-    }
 
     pros::delay(5);
   }

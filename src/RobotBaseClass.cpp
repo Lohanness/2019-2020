@@ -12,13 +12,16 @@ class RobotBase {
   int pastTick = 0;
   int currentTick = 0;
   int confirmedSame = 0;
+  int lDesired;
+  int rDesired;
   bool moving = false;
   bool logDrive;
-  RobotBase(Train rightTrain, Train leftTrain, double td, bool lD, int thr): lt(leftTrain),
-  rt(rightTrain), ticksPerDeg(td), logDrive(lD), threshold(thr) {};
+  pros::ADIDigitalOut debug;
+  RobotBase(Train rightTrain, Train leftTrain, double td, bool lD, int thr, pros::ADIDigitalOut db): lt(leftTrain),
+  rt(rightTrain), ticksPerDeg(td), logDrive(lD), threshold(thr), debug(db) {};
 
 
-  void rpms(int Rspeed, int Lspeed) {
+  void rpms(int Rspeed, int Lspeed) {/*
     if(logDrive) {
       if(Lspeed < -threshold) {
         lt.rpm(-2*(Lspeed*Lspeed)/100);
@@ -48,35 +51,45 @@ class RobotBase {
         lt.stop();
       }
     }
+    */
+    lt.rpm(Lspeed + Rspeed);
+    rt.rpm(Lspeed - Rspeed);
   }
 
 
+  void moveRPM(int sp) {
+    lt.rpm(sp);
+    rt.rpm(sp);
+  }
 
   void forwardTile(double tiles, int speed) {
-      moving = true;
       lt.resetEncoders();
       rt.resetEncoders();
+      moving = true;
       lt.moveTick(tiles,speed);
       rt.moveTick(tiles,speed);
-      while(moving) {
-        checkMoving();
-        pros::delay(10);
-        pros::lcd::set_text(1, "Moving");
+      while(lt.checkMoving()==1 || rt.checkMoving()==1) {
+        pros::delay(2);
       }
-      pros::lcd::clear_line(1);
+      moving = false;
+      pros::lcd::set_text(4, "Not Moving");
   }
 
   void rotate(int direction, int degrees, int speed){
-      int lDesired = -1*direction*degrees*ticksPerDeg;
-      int rDesired = direction*degrees*ticksPerDeg;
-      lt.moveTick(lDesired, speed);
-      rt.moveTick(rDesired, speed);
+      lt.resetEncoders();
+      rt.resetEncoders();
+      lDesired = -1*direction*degrees*ticksPerDeg;
+      rDesired = direction*degrees*ticksPerDeg;
+      lt.rotateTick(lDesired, speed);
+      rt.rotateTick(rDesired, speed);
       moving = true;
-      while(moving) {
-        checkMoving();
-        pros::lcd::set_text(1, "Moving");
+      debug.set_value(1);
+      pros::delay(50);
+      while(lt.checkMoving()==1 || rt.checkMoving()==1) {
         pros::delay(2);
       }
+      moving = false;
+      debug.set_value(0);
   }
 
   void stop() {

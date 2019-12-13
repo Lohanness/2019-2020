@@ -12,6 +12,8 @@ public:
   DR4B(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), rightdr4b(m1), leftdr4b(m2){
     rightdr4b.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     leftdr4b.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    rightdr4b.set_gearing(pros::E_MOTOR_GEARSET_18);
+    leftdr4b.set_gearing(pros::E_MOTOR_GEARSET_18);
   };
 
   void rpm(int speedRPM) {
@@ -27,15 +29,14 @@ public:
 
   }
 
-  void rise(int percent, int velocity) {
-      rightdr4b.move_relative((percent/100)*tick, velocity);
-      leftdr4b.move_relative((percent/100)*tick, velocity);
+  void rise(int ticks, int velocity) {
+      rightdr4b.move_relative(ticks, velocity);
+      leftdr4b.move_relative(ticks, velocity);
       moving = true;
-      while(moving) {
-          checkMoving();
-          pros::delay(10);
-          pros::lcd::set_text(1, "Moving");
+      while(rightdr4b.is_stopped() ==1 || leftdr4b.is_stopped() == 1) {
+          pros::delay(2);
       }
+      moving = false;
       pros::lcd::clear_line(1);
   }
 

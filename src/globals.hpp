@@ -17,5 +17,5 @@ extern Claw claw;
 extern RobotBase base;
 extern int rightT, leftT, th;
 extern pros::Controller master;
-
+extern pros::ADIDigitalOut led;
 #endif
