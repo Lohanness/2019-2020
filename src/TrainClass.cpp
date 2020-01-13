@@ -2,34 +2,44 @@
 
 class Train {
 public:
-  pros::Motor mot;
+  pros::Motor bm;
+  pros::Motor fm;
   int onetile;
-  Train(int ot, pros::Motor m): onetile(ot),  mot(m) {};
+  Train(int ot, pros::Motor front, pros::Motor back): onetile(ot),  fm(front), bm(back) {};
 
   void rpm(int speedRPM) {
-      mot.move_velocity(speedRPM);
+      fm.move_velocity(speedRPM);
+      fm.move_velocity(speedRPM);
   }
 
   void stop() { //stop moving the train
-      mot.move_velocity(0);
+      fm.move_velocity(0);
+      fm.move_velocity(0);
   }
 
   void moveTick(double distance, int velocity) {
       double toMove = distance*onetile;
-      mot.move_relative(toMove, velocity);
+      fm.move_relative(toMove,velocity);
+      fm.move_relative(toMove,velocity);
   }
 
   void rotateTick(int tick, int velocity) {
-      mot.move_relative(tick, velocity);
+    fm.move_relative(tick,velocity);
+    fm.move_relative(tick,velocity);
   }
   int getPos() {
-    return mot.get_position();
+    return (int)((fm.get_position()+bm.get_position())/2);
   }
 
   void resetEncoders() {
-    mot.tare_position();
+    fm.tare_position();
+    bm.tare_position();
   }
   int checkMoving() {
-    return mot.is_stopped();
+    if(fm.is_stopped() && bm.is_stopped()) {
+      return true;
+    }
+    return false;
+
   }
 };

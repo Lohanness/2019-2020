@@ -6,6 +6,7 @@ class RobotBase {
   public:
   Train lt;
   Train rt;
+  Train hd;
   double ticksPerDeg;
   double controlSpeed = 1;
   int threshold = 10;
@@ -17,8 +18,8 @@ class RobotBase {
   bool moving = false;
   bool logDrive;
   pros::ADIDigitalOut debug;
-  RobotBase(Train rightTrain, Train leftTrain, double td, bool lD, int thr, pros::ADIDigitalOut db): lt(leftTrain),
-  rt(rightTrain), ticksPerDeg(td), logDrive(lD), threshold(thr), debug(db) {};
+  RobotBase(Train rightTrain, Train leftTrain, Train center, double td, bool lD, int thr, pros::ADIDigitalOut db): lt(leftTrain),
+  rt(rightTrain), ticksPerDeg(td), logDrive(lD), hd(center), threshold(thr), debug(db) {};
 
 
   void rpms(int Rspeed, int Lspeed) {/*
@@ -75,6 +76,17 @@ class RobotBase {
       pros::lcd::set_text(4, "Not Moving");
   }
 
+  void sidewaysTile(double tiles, int speed) {
+    hd.resetEncoders();
+    moving = true;
+    hd.moveTick(tiles,speed);
+    while(hd.checkMoving()==1) {
+      pros::delay(2);
+    }
+    moving = false;
+    pros::lcd::set_text(4,"Not Moving");
+  }
+  
   void rotate(int direction, int degrees, int speed){
       lt.resetEncoders();
       rt.resetEncoders();

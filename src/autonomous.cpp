@@ -2,171 +2,58 @@
 #include "globals.hpp"
 
 void autonomous() {
-  /*
+  int toTurn;
     if(autonColor == "red") {
-      if(autonSquare == "1") {
-        base.forwardTile(1.1, 50);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        claw.move(150);
-        base.forwardTile(-.75, 50);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        base.rotate(leftT, 90, 40);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        base.forwardTile(0.9, 50);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        dispenser.extend(80, 150);
-        while(dispenser.moving) {
-          dispenser.checkMoving();
-          pros::delay(2);
-        }
-        claw.stop();
-        claw.resetPos(50);
-          pros::delay(500);
-      } else {
-        base.forwardTile(0.25, 50);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        claw.move(150);
-        base.rotate(rightT, 90, 40);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        base.forwardTile(0.5, 50);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        base.rotate(rightT, 45, 40);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        dispenser.extend(80,150);
-        while(dispenser.moving) {
-          dispenser.checkMoving();
-          pros::delay(2);
-        }
-        claw.stop();
-        claw.resetPos(50);
-        pros::delay(500);
-      }
+      toTurn = leftT;
     } else {
-      if(autonSquare == "1") {
-        base.forwardTile(1.1, 50);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        claw.move(150);
-        base.forwardTile(-.75, 50);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        base.rotate(rightT, 90, 40);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        base.forwardTile(0.9, 50);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        dispenser.extend(80, 150);
-        while(dispenser.moving) {
-          dispenser.checkMoving();
-          pros::delay(2);
-        }
-        claw.stop();
-        claw.resetPos(50);
-          pros::delay(500);
-      } else {
-        base.forwardTile(0.25, 50);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        claw.move(150);
-        base.rotate(rightT, 90, 40);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        base.forwardTile(0.5, 50);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        base.rotate(rightT, 45, 40);
-        while(base.moving) {
-          base.checkMoving();
-          pros::delay(2);
-        }
-        dispenser.extend(80,150);
-        while(dispenser.moving) {
-          dispenser.checkMoving();
-          pros::delay(2);
-        }
-        claw.stop();
-        claw.resetPos(50);
-        pros::delay(500);
-      }
+      toTurn = rightT;
     }
-    */
 
 
 
 
-  //  /*
+
+  //
 
   //  Works for some reason
 
+
+    base.moveRPM(50);
+    pros::delay(100);
+    base.stop();
+    pros::delay(200);
     claw.move(70);
     pros::delay(1000);
-    dr4b.rise(540,80);
+    dr4b.rise(600,80);
     pros::delay(1000);
     base.forwardTile(1,80);
     pros::delay(1500);
     claw.resetPos(50);
     pros::delay(1000);
-    dr4b.rise(-560,100);
+    dr4b.rise(-620,100);
     pros::delay(1000);
     claw.move(70);
     pros::delay(1000);
-    dr4b.rise(270,80);
+    dr4b.rise(540,80);
     pros::delay(1000);
     base.forwardTile(-1, 50);
     pros::delay(1000);
-    base.rotate(leftT,85 ,80);
+    base.rotate(toTurn,85 ,80);
     pros::delay(1000);
     base.forwardTile(1,80);
     pros::delay(2000);
-    base.moveRPM(50);
+    base.moveRPM(60);
     pros::delay(500);
     base.stop();
     pros::delay(500);
+    dr4b.rise(-300,80);
+    pros::delay(1000);
     claw.resetPos(50);
-    pros::delay(200);
-    base.forwardTile(-1, 80);
+    pros::delay(500);
+    base.forwardTile(-1, 100);
     pros::delay(2000);
     pros::lcd::set_text(6, "AUTON COMPLETE");
-//  */
+//
 
 /*
 claw.move(75);
@@ -213,5 +100,12 @@ while(claw.moving) {
 }
 
 
+*/
+
+/*
+base.forwardTile(-1, 80);
+pros::delay(2000);
+base.forwardTile(1, 80);
+pros::delay(2000);
 */
 }
