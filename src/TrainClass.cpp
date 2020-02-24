@@ -9,23 +9,33 @@ public:
 
   void rpm(int speedRPM) {
       fm.move_velocity(speedRPM);
-      fm.move_velocity(speedRPM);
+      bm.move_velocity(speedRPM);
   }
 
   void stop() { //stop moving the train
       fm.move_velocity(0);
-      fm.move_velocity(0);
+      bm.move_velocity(0);
   }
 
-  void moveTick(double distance, int velocity) {
-      double toMove = distance*onetile;
+  void lock(bool yn) {
+    if(yn) {
+      bm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+      fm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    } else {
+      bm.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+      fm.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    }
+  }
+
+  void moveTick(float distance, int velocity) {
+      float toMove = distance*((float)onetile);
       fm.move_relative(toMove,velocity);
-      fm.move_relative(toMove,velocity);
+      bm.move_relative(toMove,velocity);
   }
 
   void rotateTick(int tick, int velocity) {
     fm.move_relative(tick,velocity);
-    fm.move_relative(tick,velocity);
+    bm.move_relative(tick,velocity);
   }
   int getPos() {
     return (int)((fm.get_position()+bm.get_position())/2);
@@ -37,9 +47,9 @@ public:
   }
   int checkMoving() {
     if(fm.is_stopped() && bm.is_stopped()) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
 
   }
 };

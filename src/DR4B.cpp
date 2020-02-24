@@ -41,18 +41,11 @@ public:
   }
 
 
-  void checkMoving() {
-    currentTick = rightdr4b.get_position();
-    if(currentTick == pastTick) {
-      if(confirmedSame == 4) {
-        moving = false;
-        confirmedSame = 0;
-      }
-      confirmedSame+=1;
-    } else {
-      pastTick = currentTick;
-      confirmedSame = 0;
+  bool checkMoving() {
+    if(rightdr4b.is_stopped() && leftdr4b.is_stopped()) {
+      return false;
     }
+    return true;
   }
 
   void resetEncoders() {

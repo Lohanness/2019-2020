@@ -8,14 +8,17 @@ using namespace pros;
 #ifndef GLOBALS
 #define GLOBALS
 
-extern std::string autonColor, autonSquare;
-extern pros::Motor right, left, dr4b1, dr4b2, dispense, dispense2,clawM;
-extern Train rightTrain, leftTrain;
+extern bool skills, pushAuton, trayBotExists;
+extern std::string autonColor, autonSide,autonType;
+extern pros::Motor right, left, dr4b1, dr4b2, dispense, dispense2,clawM,hdr;
+extern Train rightTrain, leftTrain,hDrive;
 extern Dispenser dispenser;
+extern pros::Imu ine;
 extern DR4B dr4b;
 extern Claw claw;
 extern RobotBase base;
-extern int rightT, leftT, th;
+extern Inertia inertia;
+extern int hLeft, hRight, th;
 extern pros::Controller master;
 extern pros::ADIDigitalOut led;
 #endif

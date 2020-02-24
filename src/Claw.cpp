@@ -19,6 +19,11 @@ class Claw {
       m.move_velocity(vel);
     }
 
+    void moveTicks(int degrees, int vel) {
+        int ticks = degrees*24;
+        m.move_relative(degrees, vel);
+    }
+
     void stop() {
       m.move_velocity(0);
     }
@@ -33,18 +38,10 @@ class Claw {
       pros::lcd::clear_line(1);
     }
 
-    void checkMoving() {
-      currentTick = m.get_position();
-      if(currentTick == pastTick) {
-        if(confirmedSame == 4) {
-          moving = false;
-          confirmedSame = 0;
-        }
-        confirmedSame+=1;
-      } else {
-        pastTick = currentTick;
-        confirmedSame = 0;
+    bool checkMoving() {
+      if(m.is_stopped()) {
+        return false;
       }
+      return true;
     }
-
 };

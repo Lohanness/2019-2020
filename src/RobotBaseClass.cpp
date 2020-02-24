@@ -1,4 +1,5 @@
 #include "TrainClass.cpp"
+#include "InertiaSensor.cpp"
 #include "main.h"
 
 
@@ -17,9 +18,11 @@ class RobotBase {
   int rDesired;
   bool moving = false;
   bool logDrive;
+  int currentRotation = 0;
+  Inertia iner;
   pros::ADIDigitalOut debug;
-  RobotBase(Train rightTrain, Train leftTrain, Train center, double td, bool lD, int thr, pros::ADIDigitalOut db): lt(leftTrain),
-  rt(rightTrain), ticksPerDeg(td), logDrive(lD), hd(center), threshold(thr), debug(db) {};
+  RobotBase(Inertia inertiaSensor, Train rightTrain, Train leftTrain, Train center, double td, bool lD, int thr, pros::ADIDigitalOut db): lt(leftTrain),
+  rt(rightTrain), ticksPerDeg(td), logDrive(lD), hd(center), threshold(thr), debug(db), iner(inertiaSensor){};
 
 
   void rpms(int Rspeed, int Lspeed) {/*
@@ -53,8 +56,7 @@ class RobotBase {
       }
     }
     */
-    lt.rpm(Lspeed + Rspeed);
-    rt.rpm(Lspeed - Rspeed);
+
   }
 
 
@@ -63,30 +65,18 @@ class RobotBase {
     rt.rpm(sp);
   }
 
-  void forwardTile(double tiles, int speed) {
+  void forwardTile(float tiles, int speed) {
       lt.resetEncoders();
       rt.resetEncoders();
-      moving = true;
       lt.moveTick(tiles,speed);
       rt.moveTick(tiles,speed);
-      while(lt.checkMoving()==1 || rt.checkMoving()==1) {
-        pros::delay(2);
-      }
-      moving = false;
-      pros::lcd::set_text(4, "Not Moving");
   }
 
-  void sidewaysTile(double tiles, int speed) {
+  void sidewaysTile(float tiles, int speed) {
     hd.resetEncoders();
-    moving = true;
     hd.moveTick(tiles,speed);
-    while(hd.checkMoving()==1) {
-      pros::delay(2);
-    }
-    moving = false;
-    pros::lcd::set_text(4,"Not Moving");
   }
-  
+
   void rotate(int direction, int degrees, int speed){
       lt.resetEncoders();
       rt.resetEncoders();
@@ -104,6 +94,25 @@ class RobotBase {
       debug.set_value(0);
   }
 
+  void rotateInertia(int degrees, int speed) {
+    int rSpeed = speed*-1;
+    int lSpeed = speed;
+
+    int toTurn = currentRotation + abs(degrees);
+    rt.rpm(rSpeed);
+    lt.rpm(lSpeed);
+    int currentRotation = abs(iner.getRotation());
+    while(currentRotation < toTurn) {
+      currentRotation = abs(iner.getRotation());
+      if(currentRotation/toTurn > 0.5) {
+        rt.rpm(rSpeed/3);
+        lt.rpm(lSpeed/3);
+      }
+    }
+    pros::lcd::set_text(3, "Finished Rotating");
+    rt.stop();
+    lt.stop();
+  }
   void stop() {
     lt.stop();
     rt.stop();
@@ -117,17 +126,22 @@ class RobotBase {
     }
   }
 
-  void checkMoving() {
-    currentTick = lt.getPos();
-    if(currentTick == pastTick) {
-      if(confirmedSame == 4) {
-        moving = false;
-        confirmedSame = 0;
-      }
-      confirmedSame+=1;
-    } else {
-      pastTick = currentTick;
-      confirmedSame = 0;
+  void moveTicks(int ticks, int speed) {
+    lt.resetEncoders();
+    rt.resetEncoders();
+    lt.rotateTick(ticks, speed);
+    rt.rotateTick(ticks, speed);
+  }
+
+  void hDriveTick(int ticks, int speed) {
+    hd.resetEncoders();
+    hd.rotateTick(ticks, speed);
+  }
+
+  bool checkMoving() {
+    if(rt.checkMoving() || rt.checkMoving() || hd.checkMoving()) {
+      return true;
     }
+    return false;
   }
 };
