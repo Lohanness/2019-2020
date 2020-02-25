@@ -4,10 +4,7 @@ class Claw {
   public:
     pros::Motor m;
     bool moving = false;
-    bool closing = false;
-    int pastTick = 0;
-    int currentTick = 0;
-    int confirmedSame = 0;
+
 
     Claw(pros::Motor mot): m(mot) {
       m.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);

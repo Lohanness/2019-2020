@@ -4,12 +4,8 @@ class DR4B {
 public:
   pros::Motor rightdr4b;
   pros::Motor leftdr4b;
-  int tick;
-  int pastTick = 0;
-  int currentTick = 0;
-  int confirmedSame = 0;
   bool moving = false;
-  DR4B(int ticks, pros::Motor m1, pros::Motor m2): tick(ticks), rightdr4b(m1), leftdr4b(m2){
+  DR4B( pros::Motor m1, pros::Motor m2): rightdr4b(m1), leftdr4b(m2){
     rightdr4b.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     leftdr4b.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     rightdr4b.set_gearing(pros::E_MOTOR_GEARSET_18);

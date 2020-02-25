@@ -10,19 +10,16 @@ class RobotBase {
   Train hd;
   double ticksPerDeg;
   double controlSpeed = 1;
-  int threshold = 10;
   int pastTick = 0;
   int currentTick = 0;
   int confirmedSame = 0;
   int lDesired;
   int rDesired;
   bool moving = false;
-  bool logDrive;
   int currentRotation = 0;
   Inertia iner;
-  pros::ADIDigitalOut debug;
-  RobotBase(Inertia inertiaSensor, Train rightTrain, Train leftTrain, Train center, double td, bool lD, int thr, pros::ADIDigitalOut db): lt(leftTrain),
-  rt(rightTrain), ticksPerDeg(td), logDrive(lD), hd(center), threshold(thr), debug(db), iner(inertiaSensor){};
+  RobotBase(Inertia inertiaSensor, Train rightTrain, Train leftTrain, Train center, double td): lt(leftTrain),
+  rt(rightTrain), ticksPerDeg(td), hd(center), iner(inertiaSensor){};
 
 
   void rpms(int Rspeed, int Lspeed) {/*
@@ -85,13 +82,11 @@ class RobotBase {
       lt.rotateTick(lDesired, speed);
       rt.rotateTick(rDesired, speed);
       moving = true;
-      debug.set_value(1);
       pros::delay(50);
       while(lt.checkMoving()==1 || rt.checkMoving()==1) {
         pros::delay(2);
       }
       moving = false;
-      debug.set_value(0);
   }
 
   void rotateInertia(int degrees, int speed) {

@@ -9,7 +9,7 @@ public:
 
   void initialize() {
     sensor.reset();
-    pros::delay(2000);
+    pros::delay(1000);
   }
 
   int getRotation() {

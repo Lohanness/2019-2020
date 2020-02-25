@@ -4,10 +4,9 @@
 #include "DR4B.cpp"
 #include "Claw.cpp"
 
-std::string autonColor = "blue";
-std::string autonSide = "non-protected";
-std::string autonType = "tower-stack";
-bool trayBotExists = false;
+std::string autonColor = "red";
+std::string autonSide = "protected";
+std::string autonType = "score-points";
 bool skills = false;
 bool pushAuton = false;
 
@@ -32,8 +31,8 @@ pros::ADIDigitalOut led(1);
 Train rightTrain = Train(1300,frontRight,backRight);
 Train leftTrain = Train(1300,frontLeft,backLeft);
 Train hDrive = Train(2600,hdr,hdr);
-DR4B dr4b  = DR4B(540,dr4b1,dr4b2);
+DR4B dr4b  = DR4B(dr4b1,dr4b2);
 Inertia inertia = Inertia(ine);
-RobotBase base = RobotBase(inertia, rightTrain,leftTrain,hDrive,9.3,false,th,led);
+RobotBase base = RobotBase(inertia, rightTrain,leftTrain,hDrive,9.3);
 
 Claw claw = Claw(clawM);

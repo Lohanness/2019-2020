@@ -68,15 +68,11 @@ void opcontrol() {
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_A)) {
       claw.move(200);
-      claw.closing = true;
     } else if(master.get_digital(E_CONTROLLER_DIGITAL_B)) {
       claw.move(-200);
-      claw.closing = false;
-    } else /*if(!claw.closing)*/ {
+    } else {
       claw.stop();
-    }/*else {
-      claw.stop();
-    }*/
+    }
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && !holding) {
       base.cycleSpeedMode();

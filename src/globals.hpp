@@ -8,7 +8,7 @@ using namespace pros;
 #ifndef GLOBALS
 #define GLOBALS
 
-extern bool skills, pushAuton, trayBotExists;
+extern bool skills, pushAuton;
 extern std::string autonColor, autonSide,autonType;
 extern pros::Motor right, left, dr4b1, dr4b2, dispense, dispense2,clawM,hdr;
 extern Train rightTrain, leftTrain,hDrive;
