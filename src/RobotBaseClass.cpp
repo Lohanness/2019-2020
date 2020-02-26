@@ -21,42 +21,7 @@ class RobotBase {
   RobotBase(Inertia inertiaSensor, Train rightTrain, Train leftTrain, Train center, double td): lt(leftTrain),
   rt(rightTrain), ticksPerDeg(td), hd(center), iner(inertiaSensor){};
 
-
-  void rpms(int Rspeed, int Lspeed) {/*
-    if(logDrive) {
-      if(Lspeed < -threshold) {
-        lt.rpm(-2*(Lspeed*Lspeed)/100);
-      } else if(Lspeed > threshold) {
-        lt.rpm(2*(Lspeed*Lspeed)/100);
-      } else {
-        lt.stop();
-      }
-
-      if(Rspeed < -threshold) {
-        rt.rpm(-2*(Rspeed*Rspeed)/100);
-      } else if(Rspeed > threshold) {
-        rt.rpm(2*(Rspeed*Rspeed)/100);
-      } else {
-        rt.stop();
-      }
-
-    } else {
-      if(Rspeed > threshold || Rspeed < -threshold) {
-        rt.rpm(Rspeed*2);
-      } else {
-        rt.stop();
-      }
-      if(Lspeed > threshold || Lspeed < -threshold) {
-        lt.rpm(Lspeed*2);
-      } else {
-        lt.stop();
-      }
-    }
-    */
-
-  }
-
-
+  
   void moveRPM(int sp) {
     lt.rpm(sp);
     rt.rpm(sp);
