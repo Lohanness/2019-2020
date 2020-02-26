@@ -18,8 +18,8 @@ class RobotBase {
   bool moving = false;
   int currentRotation = 0;
   Inertia iner;
-  RobotBase(Inertia inertiaSensor, Train rightTrain, Train leftTrain, Train center, double td): lt(leftTrain),
-  rt(rightTrain), ticksPerDeg(td), hd(center), iner(inertiaSensor){};
+  RobotBase(Inertia inertiaSensor, Train rightTrain, Train leftTrain, Train center, double td): 
+  lt(leftTrain), rt(rightTrain), ticksPerDeg(td), hd(center), iner(inertiaSensor){};
 
   
   void moveRPM(int sp) {
