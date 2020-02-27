@@ -6,7 +6,7 @@
 
 std::string autonColor = "red";
 std::string autonSide = "protected";
-std::string autonType = "score-points";
+std::string autonType = "main";
 bool skills = false;
 bool pushAuton = false;
 

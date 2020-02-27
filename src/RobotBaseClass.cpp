@@ -10,18 +10,15 @@ class RobotBase {
   Train hd;
   double ticksPerDeg;
   double controlSpeed = 1;
-  int pastTick = 0;
-  int currentTick = 0;
-  int confirmedSame = 0;
   int lDesired;
   int rDesired;
   bool moving = false;
   int currentRotation = 0;
   Inertia iner;
-  RobotBase(Inertia inertiaSensor, Train rightTrain, Train leftTrain, Train center, double td): 
+  RobotBase(Inertia inertiaSensor, Train rightTrain, Train leftTrain, Train center, double td):
   lt(leftTrain), rt(rightTrain), ticksPerDeg(td), hd(center), iner(inertiaSensor){};
 
-  
+
   void moveRPM(int sp) {
     lt.rpm(sp);
     rt.rpm(sp);
@@ -78,11 +75,17 @@ class RobotBase {
     rt.stop();
   }
 
-  void cycleSpeedMode() {
-    if(controlSpeed == 1) {
-      controlSpeed = 0.25;
+  void setSpeedMode(double a, pros::Controller con) {
+    controlSpeed = a;
+    const char t1[] = "Full Speed   ";
+    const char t2[] = "Half Speed   ";
+    const char t3[] = "Quarter Speed";
+    if(a==1) {
+      con.set_text(0, 0, t1);
+    } else if(a==0.5) {
+      con.set_text(0, 0, t2);
     } else {
-      controlSpeed = 1;
+      con.set_text(0, 0, t3);
     }
   }
 

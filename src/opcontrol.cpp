@@ -6,6 +6,11 @@ bool driving = false;
 void opcontrol() {
 
   while(true) {
+    /*
+
+    DRIVE CONTROLS
+
+    */
     bool bls = false;
     bool brs = false;
     bool hls = false;
@@ -24,11 +29,9 @@ void opcontrol() {
       hDrive.stop();
     }
 
-
     if((turning > th || turning < -th) && !bls) {
       brs = true;
     }
-
 
     if(bls && !brs) {
       base.moveRPM(-baseSpeed);
@@ -48,16 +51,11 @@ void opcontrol() {
       leftTrain.lock(false);
     }
 
+    /*
 
-/*
-    if(master.get_digital(E_CONTROLLER_DIGITAL_R1)) {
-      dispenser.rpm(100);
-    } else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)) {
-      dispenser.rpm(-100);
-    } else {
-      dispenser.stop();
-    }
-*/
+    DR4B CONTROLS
+
+    */
     if(master.get_digital(E_CONTROLLER_DIGITAL_L1)) {
       dr4b.rpm(100);
     } else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)) {
@@ -66,6 +64,11 @@ void opcontrol() {
       dr4b.stop();
     }
 
+    /*
+
+    CLAW CONTROLS
+
+    */
     if(master.get_digital(E_CONTROLLER_DIGITAL_A)) {
       claw.move(200);
     } else if(master.get_digital(E_CONTROLLER_DIGITAL_B)) {
@@ -74,17 +77,19 @@ void opcontrol() {
       claw.stop();
     }
 
-    if(master.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && !holding) {
-      base.cycleSpeedMode();
-      holding = true;
-    }
-    if(!master.get_digital(E_CONTROLLER_DIGITAL_RIGHT)) {
-      holding = false;
+    /*
+
+    CHANGE BASE SPEED
+
+    */
+    if(master.get_digital(E_CONTROLLER_DIGITAL_UP)) {
+      base.setSpeedMode(1, master);
+    } else if(master.get_digital(E_CONTROLLER_DIGITAL_LEFT)) {
+      base.setSpeedMode(0.5, master);
+    } else {
+      base.setSpeedMode(0.25, master);
     }
 
-    int zAxis = inertia.getRotation();
-    std::string toPrintInertia = std::to_string(zAxis);
-  //  pros::lcd::set_text(1, toPrintInertia);
 
     pros::delay(5);
   }

@@ -1,59 +1,42 @@
 #include "main.h"
 #include "globals.hpp"
-bool i = false;
-bool x = false;
-int z = 0;
 
 void leftbutton() {
-	i=!i;
-	autonColor="blue";
-	if (!i){
+	if(autonColor=="blue") {
+		autonColor="red";
+	} else {
 		autonColor="red";
 	}
 	pros::lcd::set_text(1, autonColor);
 }
 
 void centerbutton() {
-	x=!x;
-	autonSide="protected";
-	if (!x){
+	if(autonSide=="protected") {
 		autonSide="non-protected";
+	} else {
+		autonSide = "protected";
 	}
 	pros::lcd::set_text(2, autonSide);
 }
 
 void rightbutton() {
-	z=z+1;
-	int max=5;
-	if(z==max) {
-		z=0;
-	}
-	if(z==0) {
-		autonType="tower-stack";
-		skills = false;
-		pushAuton=false;
-	} else if(z==1) {
-		autonType="score-points";
-		skills=false;
-		pushAuton=false;
-	} else if(z==2) {
-		autonType="simple";
-		skills=false;
-		pushAuton=true;
-	} else if(z==3) {
+
+
+	if(autonType=="main") {
 		autonType="push";
-	} else {
+	} else if(autonType=="push") {
 		skills=true;
+		autonType="skills";
+	} else {
+		autonType="main";
+		skills=false;
 	}
 
-	if(skills) {
-		pros::lcd::set_text(3,"SKILLS AUTONOMOUS AUTONOMOUS");
-	} else {
 		pros::lcd::set_text(3, autonType);
-	}
 }
 
 void initialize() {
+	inertia.initialize();
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, autonColor);
 	pros::lcd::set_text(2, autonSide);
