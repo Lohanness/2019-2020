@@ -23,13 +23,10 @@ void rightbutton() {
 	if(autonType=="main") {
 		autonType="push";
 	} else if(autonType=="push") {
-		skills=true;
 		autonType="skills";
 	} else {
 		autonType="main";
-		skills=false;
 	}
-
 	pros::lcd::set_text(3, autonType);
 }
 

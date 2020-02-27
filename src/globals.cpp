@@ -7,14 +7,10 @@
 std::string autonColor = "red";
 std::string autonSide = "protected";
 std::string autonType = "main";
-bool skills = false;
-bool pushAuton = false;
-
 
 int hRight = 1;
 int hLeft= -1;
 int th = 20;
-
 
 pros::Motor frontLeft(20);
 pros::Motor backLeft(19);
@@ -26,7 +22,6 @@ pros::Motor dr4b2(1,true);
 pros::Motor clawM(14,true);
 pros::Imu ine(15);
 pros::Controller master(pros::E_CONTROLLER_MASTER);
-pros::ADIDigitalOut led(1);
 
 Train rightTrain = Train(1300,frontRight,backRight);
 Train leftTrain = Train(1300,frontLeft,backLeft);

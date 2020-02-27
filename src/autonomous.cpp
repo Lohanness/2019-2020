@@ -3,7 +3,6 @@
 
 void autonomous() {
 
-
   int toMove;
     if(autonColor == "red") {
       toMove = hRight;
@@ -11,9 +10,7 @@ void autonomous() {
       toMove = hLeft;
     }
 
-
-
-    if(skills) {
+    if(autonType=="skills") {
       base.sidewaysTile(toMove*-0.9,100);
       pros::delay(2000);
 
