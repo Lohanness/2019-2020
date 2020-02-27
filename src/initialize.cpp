@@ -20,8 +20,6 @@ void centerbutton() {
 }
 
 void rightbutton() {
-
-
 	if(autonType=="main") {
 		autonType="push";
 	} else if(autonType=="push") {
@@ -38,8 +36,6 @@ void rightbutton() {
 void initialize() {
 	inertia.initialize();
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, autonColor);
-	pros::lcd::set_text(2, autonSide);
 	pros::lcd::register_btn0_cb(centerbutton);
 	pros::lcd::register_btn1_cb(leftbutton);
 	pros::lcd::register_btn2_cb(rightbutton);
