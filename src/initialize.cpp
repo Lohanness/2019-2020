@@ -32,7 +32,7 @@ void rightbutton() {
 		skills=false;
 	}
 
-		pros::lcd::set_text(3, autonType);
+	pros::lcd::set_text(3, autonType);
 }
 
 void initialize() {
